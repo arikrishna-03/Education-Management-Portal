@@ -1,13 +1,24 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BookOpen, UserCheck, Sparkles, Award } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const navigate = useNavigate();
-
   const announcements = [
-    { id: '01', title: 'Autumn applications are now open', date: '12 September 2026' },
-    { id: '02', title: 'New research seminar series announced', date: '24 September 2026' },
-    { id: '03', title: 'Faculty lecture programme published', date: '03 October 2026' },
+    {
+      id: '01',
+      title: 'Autumn Academic Research Seminars Open for Registration',
+      date: '14 September 2026'
+    },
+    {
+      id: '02',
+      title: 'Publication: Spatial Geometry & Pedagogy Matrix',
+      date: '02 September 2026'
+    },
+    {
+      id: '03',
+      title: 'Faculty Appointments: Applied Neural Learning Systems',
+      date: '28 August 2026'
+    }
   ];
 
   const featuredCourses = [
@@ -15,7 +26,7 @@ export const HomePage: React.FC = () => {
       id: 'arc-118',
       category: 'ARCHITECTURE & DESIGN',
       title: 'Spatial Thinking & Environmental Architecture',
-      desc: 'A study of space, structure, and the relationship between people and their built environments.',
+      desc: 'A study of space, structure, and the relationship between human experience and built environments.',
       instructor: 'Dr. Leila Haddad',
       duration: '12 weeks',
       level: 'Advanced',
@@ -33,12 +44,12 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'com-210',
-      category: 'ACADEMIC SYNTHESIS',
+      category: 'ACADEMIC WRITING',
       title: 'Academic Writing & Research Synthesis',
-      desc: 'Synthesizing empirical sources into structured literature matrices and peer-reviewed papers.',
+      desc: 'Developing clarity of argument, structural coherence, and rigorous literature analysis.',
       instructor: 'Dr. Marcus Brody',
       duration: '8 weeks',
-      level: 'Foundation',
+      level: 'Beginner',
       image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1000'
     },
     {
@@ -90,9 +101,12 @@ export const HomePage: React.FC = () => {
               <p className="hero-lead-desc">
                 A carefully curated academic environment for ambitious learners, researchers, and future thinkers.
               </p>
-              <div className="hero-cta-wrapper">
-                <Link to="/courses" className="btn-editorial-primary">
-                  EXPLORE COURSES <span className="arrow-sym">→</span>
+              <div className="hero-cta-wrapper flex-align gap-3 flex-wrap">
+                <Link to="/login" className="btn-editorial-primary">
+                  USER LOGIN / REGISTER <span className="arrow-sym">→</span>
+                </Link>
+                <Link to="/courses" className="btn-editorial-primary-light">
+                  EXPLORE COURSES →
                 </Link>
               </div>
             </div>
@@ -104,6 +118,30 @@ export const HomePage: React.FC = () => {
                   alt="Academic Library Architecture"
                   className="editorial-img"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SIGNATURE GOLD ACADEMIC HERO CARD */}
+      <section className="section-space-sm">
+        <div className="academia-container">
+          <div className="signature-gold-panel">
+            <div className="circle-decor-1" />
+            <div className="circle-decor-2" />
+            
+            <div style={{ position: 'relative', zIndex: 2 }}>
+              <span className="micro-eyebrow" style={{ color: '#472D00' }}>INTELLIGENT LEARNING ENGINE</span>
+              <h2 className="hero-title-dark">AI-Powered Academic Intelligence & Insights</h2>
+              <p className="hero-desc-dark">
+                Track coursework progress, detect academic weak spots, generate automated revision schedules, and evaluate assignments with personalized AI recommendations.
+              </p>
+
+              <div style={{ marginTop: '2rem' }}>
+                <Link to="/login" className="btn-dark-green">
+                  REVIEW AI INSIGHTS <span className="arrow-sym">→</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -137,45 +175,40 @@ export const HomePage: React.FC = () => {
       {/* 3. FEATURED COURSES SECTION */}
       <section className="section-space border-top-thin">
         <div className="academia-container">
-          <div className="section-header-flex flex-between">
+          <div className="section-header-flex">
             <div>
               <span className="micro-eyebrow">CURRICULUM DISCIPLINE</span>
               <h2 className="section-serif-heading">Featured Courses</h2>
             </div>
             <Link to="/courses" className="btn-link-editorial">
-              ALL COURSES →
+              VIEW CATALOG →
             </Link>
           </div>
 
           <div className="featured-courses-grid">
-            {featuredCourses.map((course) => (
-              <div key={course.id} className="course-editorial-card" onClick={() => navigate(`/courses/${course.id}`)}>
+            {featuredCourses.map((c) => (
+              <Link key={c.id} to={`/courses/${c.id}`} className="course-editorial-card">
                 <div className="course-img-box">
-                  <img src={course.image} alt={course.title} className="editorial-img" />
+                  <img src={c.image} alt={c.title} className="editorial-img" />
                 </div>
-                <div className="course-content-box">
-                  <span className="micro-category-label">{course.category}</span>
-                  <h3 className="course-serif-title">{course.title}</h3>
-                  <p className="course-body-desc">{course.desc}</p>
-                  
-                  <div className="course-meta-bottom flex-between">
-                    <span className="meta-text">{course.instructor} · {course.duration}</span>
-                    <span className="btn-view-link">VIEW COURSE →</span>
-                  </div>
+                <span className="micro-category-label">{c.category}</span>
+                <h3 className="course-serif-title">{c.title}</h3>
+                <p className="course-body-desc">{c.desc}</p>
+                <div className="course-meta-bottom flex-between">
+                  <span className="meta-text">{c.instructor} · {c.duration}</span>
+                  <span className="btn-view-link">VIEW COURSE →</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. TOP TEACHERS / FACULTY SECTION */}
+      {/* 4. FACULTY DIRECTORY SECTION */}
       <section className="section-space border-top-thin">
         <div className="academia-container">
-          <div className="section-header-flex">
-            <span className="micro-eyebrow">ACADEMIC LEADERSHIP</span>
-            <h2 className="section-serif-heading">Faculty Directory</h2>
-          </div>
+          <span className="micro-eyebrow">ACADEMIC LEADERSHIP</span>
+          <h2 className="section-serif-heading">Faculty Directory</h2>
 
           <div className="faculty-grid-3">
             {faculty.map((member, idx) => (
@@ -183,9 +216,7 @@ export const HomePage: React.FC = () => {
                 <div className="faculty-portrait-frame">
                   <img src={member.image} alt={member.name} className="editorial-img grayscale-img" />
                 </div>
-                <span className="micro-category-label" style={{ marginTop: '1rem', display: 'block' }}>
-                  {member.discipline}
-                </span>
+                <span className="micro-category-label" style={{ marginTop: '0.8rem' }}>{member.discipline}</span>
                 <h3 className="faculty-serif-name">{member.name}</h3>
                 <p className="faculty-role-text">{member.role}</p>
               </div>
@@ -232,16 +263,20 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. HOME CTA SECTION */}
-      <section className="home-cta-banner">
-        <div className="academia-container text-center">
-          <h2 className="cta-serif-title">A deeper way to learn.</h2>
+      {/* 6. HOME CTA BANNER */}
+      <section className="home-cta-banner text-center border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">BEGIN YOUR STUDIES</span>
+          <h2 className="cta-serif-title">Ready to Begin?</h2>
           <p className="cta-subtitle">
-            Explore courses designed for curious minds and ambitious futures.
+            Explore our academic curriculum catalog or access your student & teacher workspace.
           </p>
-          <div style={{ marginTop: '2rem' }}>
+          <div className="flex-center gap-4 flex-wrap">
+            <Link to="/login" className="btn-editorial-primary">
+              USER LOGIN / REGISTER →
+            </Link>
             <Link to="/courses" className="btn-editorial-primary-light">
-              EXPLORE COURSES <span className="arrow-sym">→</span>
+              EXPLORE COURSES →
             </Link>
           </div>
         </div>

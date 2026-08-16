@@ -1,38 +1,44 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   BookOpen, 
-  Calendar, 
   FileText, 
-  Users, 
-  Brain, 
-  BarChart3, 
+  CalendarCheck, 
+  Award, 
+  TrendingUp, 
+  Sparkles, 
+  User, 
   LogOut,
   Bell,
-  Search,
-  UserCheck
+  Search
 } from 'lucide-react';
 import { getStoredUser, setStoredUser } from '../data/authState';
 
-interface AppShellProps {
+interface StudentShellProps {
   children: React.ReactNode;
 }
 
-export const AppShell: React.FC<AppShellProps> = ({ children }) => {
+export const StudentShell: React.FC<StudentShellProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
   const user = getStoredUser();
 
+  // Guard: if not authenticated or not student, allow seamless access for demo or redirect if user logs out
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   const navItems = [
-    { label: 'Overview', path: '/app', icon: LayoutDashboard },
-    { label: 'Courses', path: '/app/courses', icon: BookOpen },
-    { label: 'Schedule', path: '/app/calendar', icon: Calendar },
-    { label: 'Assignments', path: '/app/assignments', icon: FileText },
-    { label: 'Students', path: '/app/students', icon: Users },
-    { label: 'AI Engine', path: '/app/insights', icon: Brain },
-    { label: 'Reports', path: '/app/reports', icon: BarChart3 }
+    { label: 'User Dashboard', path: '/student/dashboard', icon: LayoutDashboard },
+    { label: 'My Courses', path: '/student/courses', icon: BookOpen },
+    { label: 'My Assignments', path: '/student/assignments', icon: FileText },
+    { label: 'Attendance', path: '/student/attendance', icon: CalendarCheck },
+    { label: 'Grades', path: '/student/grades', icon: Award },
+    { label: 'My Progress', path: '/student/progress', icon: TrendingUp },
+    { label: 'AI Recommendations', path: '/student/ai-recommendations', icon: Sparkles },
+    { label: 'Profile', path: '/student/profile', icon: User }
   ];
 
   const handleLogout = () => {
@@ -42,25 +48,26 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
   return (
     <div className="hub-app-shell">
-      {/* PERSISTENT LEFT SIDEBAR (#05101E) */}
+      {/* AUTHENTICATED STUDENT SIDEBAR (NO PUBLIC NAVBAR / FOOTER) */}
       <aside className="hub-sidebar">
         <div>
-          {/* Logo Badge (AH + Academic Hub) */}
+          {/* Logo Badge */}
           <Link to="/" className="flex-align gap-3" style={{ padding: '0.4rem 0.6rem' }}>
             <div className="hub-logo-badge flex-center">
               AH
             </div>
             <div className="flex-column">
               <span className="hub-brand-title">Academic Hub</span>
-              <span className="hub-workspace-sub">WORKSPACE PORTAL</span>
+              <span className="hub-workspace-sub">STUDENT WORKSPACE</span>
             </div>
           </Link>
 
-          {/* Navigation Links */}
+          {/* Student Area Navigation Items */}
           <nav className="hub-nav-list">
+            <span className="micro-eyebrow" style={{ padding: '0.4rem 0.85rem', fontSize: '0.65rem' }}>USER AREA</span>
             {navItems.map((item) => {
               const IconComponent = item.icon;
-              const isActive = path === item.path;
+              const isActive = path === item.path || (item.path !== '/student/dashboard' && path.startsWith(item.path));
               return (
                 <Link
                   key={item.path}
@@ -75,15 +82,15 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
           </nav>
         </div>
 
-        {/* User Account / Logout */}
+        {/* Account / Log Out */}
         <div style={{ borderTop: '1px solid #1B3045', paddingTop: '1rem' }}>
           <div className="flex-align gap-3" style={{ padding: '0.4rem 0.6rem', marginBottom: '0.6rem' }}>
-            <div className="hub-logo-badge flex-center" style={{ width: '32px', height: '32px', fontSize: '0.85rem', background: '#00382E', color: '#F1BA4B' }}>
-              {user?.avatar || 'AR'}
+            <div className="hub-logo-badge flex-center" style={{ width: '34px', height: '34px', fontSize: '0.85rem', background: '#00382E', color: '#F1BA4B' }}>
+              {user.avatar || 'AR'}
             </div>
             <div className="flex-column flex-1">
-              <strong className="text-xs text-primary" style={{ color: '#F5EFE3' }}>{user?.name || 'Amina Rahman'}</strong>
-              <span className="text-xs text-muted" style={{ fontSize: '0.7rem' }}>{user?.role?.toUpperCase() || 'STUDENT'}</span>
+              <strong className="text-xs text-primary" style={{ color: '#F5EFE3' }}>{user.name}</strong>
+              <span className="text-xs text-muted" style={{ fontSize: '0.7rem' }}>{user.studentId || 'STUDENT'}</span>
             </div>
           </div>
 
@@ -98,25 +105,25 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         </div>
       </aside>
 
-      {/* MAIN WORKSPACE WRAPPER */}
+      {/* DEDICATED STUDENT MAIN CONTENT AREA */}
       <div className="hub-main-wrapper">
-        {/* TOP HEADER */}
+        {/* STUDENT TOP HEADER */}
         <header className="hub-top-header flex-between">
           <div>
             <span className="micro-eyebrow" style={{ color: '#F1BA4B', letterSpacing: '0.12em' }}>
-              MONDAY · 19 AUGUST 2026
+              STUDENT PORTAL · ACADEMIC YEAR 2026
             </span>
             <h2 className="font-serif" style={{ fontSize: '1.8rem', color: '#F5EFE3', margin: 0 }}>
-              Good morning, {user?.name || 'Amina'}.
+              Welcome back, {user.name.split(' ')[0]}.
             </h2>
           </div>
 
           <div className="flex-align gap-4">
-            <div className="flex-align gap-2 search-field-minimal" style={{ width: '240px' }}>
+            <div className="flex-align gap-2 search-field-minimal" style={{ width: '220px' }}>
               <Search size={16} style={{ color: '#8D918F' }} />
               <input 
                 type="text" 
-                placeholder="Search portal..." 
+                placeholder="Search courses, grades..." 
                 style={{ background: '#0B192A', border: '1px solid #1B3045', padding: '0.4rem 0.8rem', fontSize: '0.85rem', color: '#F5EFE3', borderRadius: '6px', width: '100%' }}
               />
             </div>
@@ -127,7 +134,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
           </div>
         </header>
 
-        {/* PAGE CONTENT */}
+        {/* FULL PAGE PAGE CONTAINER */}
         <main className="flex-1" style={{ padding: '2rem' }}>
           {children}
         </main>

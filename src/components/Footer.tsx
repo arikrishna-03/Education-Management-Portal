@@ -6,55 +6,58 @@ export const Footer: React.FC = () => {
     <footer className="academia-footer">
       <div className="academia-footer-container">
         <div className="footer-top-grid">
-          {/* Brand Info */}
+          {/* Brand Column */}
           <div className="footer-brand-col">
-            <span className="footer-brand-title">ACADEMIA</span>
+            <div className="flex-align gap-3" style={{ marginBottom: '1rem' }}>
+              <div className="hub-logo-badge flex-center">AH</div>
+              <span className="footer-brand-title" style={{ margin: 0 }}>Academic Hub</span>
+            </div>
             <p className="footer-brand-desc">
-              A place for deeper learning. Dedicated to rigorous academic inquiry, architectural spatial thinking, and intellectual independence.
+              A carefully curated academic management portal for ambitious learners, researchers, and future thinkers.
             </p>
           </div>
 
-          {/* Nav Column 1 */}
-          <div className="footer-nav-col">
+          {/* Navigation Links */}
+          <div className="footer-col">
             <span className="footer-col-label">NAVIGATION</span>
             <ul className="footer-link-list">
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/courses">Courses</Link></li>
-              <li><Link to="/contact">Contact</Link></li>
-              <li><Link to="/courses/arc-118">Course Details</Link></li>
+              <li><Link to="/courses">Courses Catalog</Link></li>
+              <li><Link to="/contact">Contact & Support</Link></li>
+              <li><Link to="/login">User Login / Register</Link></li>
             </ul>
           </div>
 
-          {/* Nav Column 2 */}
-          <div className="footer-nav-col">
-            <span className="footer-col-label">DISCIPLINE</span>
+          {/* User Areas */}
+          <div className="footer-col">
+            <span className="footer-col-label">USER WORKSPACE</span>
             <ul className="footer-link-list">
-              <li><Link to="/courses">Spatial & Architecture</Link></li>
-              <li><Link to="/courses">Pedagogical Design</Link></li>
-              <li><Link to="/courses">Academic Writing</Link></li>
-              <li><Link to="/courses">Applied AI & Computing</Link></li>
+              <li><Link to="/login?role=student">Student Dashboard</Link></li>
+              <li><Link to="/student/courses">Enrolled Courses</Link></li>
+              <li><Link to="/login?role=teacher">Teacher Portal</Link></li>
+              <li><Link to="/mentor">Mentor Workspace</Link></li>
             </ul>
           </div>
 
-          {/* Nav Column 3 */}
-          <div className="footer-nav-col">
-            <span className="footer-col-label">INSTITUTE</span>
+          {/* Legal / Contact */}
+          <div className="footer-col">
+            <span className="footer-col-label">INSTITUTION</span>
             <ul className="footer-link-list">
-              <li><Link to="/contact">Admissions</Link></li>
-              <li><Link to="/contact">Faculty Directory</Link></li>
-              <li><Link to="/contact">Academic Support</Link></li>
-              <li><Link to="/contact">Research Seminars</Link></li>
+              <li><span className="legal-link">Academic Registry</span></li>
+              <li><span className="legal-link">Privacy Policy</span></li>
+              <li><span className="legal-link">Terms of Governance</span></li>
+              <li><span className="legal-link">System Status</span></li>
             </ul>
           </div>
         </div>
 
-        {/* Footer Bottom Bar */}
+        {/* Bottom Flex */}
         <div className="footer-bottom-flex">
-          <span className="footer-copy">© 2026 Academic Institute. All rights reserved.</span>
-          <div className="footer-legal-links flex-align gap-4">
-            <span className="legal-link">Privacy Policy</span>
-            <span className="legal-link">Terms of Study</span>
+          <span>© 2026 Academic Hub Institute. All rights reserved.</span>
+          <div className="footer-legal-links">
+            <span className="legal-link">Security</span>
             <span className="legal-link">Accessibility</span>
+            <span className="legal-link">Ethics</span>
           </div>
         </div>
       </div>

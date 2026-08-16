@@ -62,13 +62,13 @@ export const ContactPage: React.FC = () => {
       {/* 2. CONTACT INFO & CONTACT FORM GRID */}
       <section className="section-space border-top-thin">
         <div className="academia-container">
-          <div className="grid-2-1" style={{ gap: '4rem' }}>
+          <div className="contact-grid-2">
             {/* Left: Contact Info */}
             <div>
               <span className="micro-eyebrow">CONTACT INFORMATION</span>
               <h2 className="section-serif-heading">Get in Touch</h2>
 
-              <div className="contact-info-stack" style={{ marginTop: '2rem' }}>
+              <div className="contact-info-stack" style={{ marginTop: '2.5rem' }}>
                 <div className="contact-info-block">
                   <span className="micro-eyebrow">GENERAL ENQUIRIES</span>
                   <p className="contact-val-text font-serif">hello@academicportal.com</p>
@@ -100,17 +100,18 @@ export const ContactPage: React.FC = () => {
               <h2 className="section-serif-heading">Contact Form</h2>
 
               {formSubmitted ? (
-                <div className="editorial-success-box" style={{ marginTop: '2rem' }}>
+                <div className="editorial-success-box" style={{ marginTop: '2.5rem' }}>
                   <h3 className="sub-serif-title text-emerald">Message Transmitted</h3>
                   <p className="body-editorial-p">Thank you. An admissions counselor will respond to your inquiry within 24 hours.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="contact-form-editorial" style={{ marginTop: '2rem' }}>
+                <form onSubmit={handleSubmit} className="contact-form-editorial" style={{ marginTop: '2.5rem' }}>
                   <div className="form-group-editorial">
                     <label className="editorial-label">Name *</label>
                     <input 
                       type="text" 
                       className="editorial-input-thin" 
+                      placeholder="Your full name"
                       value={formName} 
                       onChange={(e) => setFormName(e.target.value)} 
                       required 
@@ -122,6 +123,7 @@ export const ContactPage: React.FC = () => {
                     <input 
                       type="email" 
                       className="editorial-input-thin" 
+                      placeholder="name@academic.edu"
                       value={formEmail} 
                       onChange={(e) => setFormEmail(e.target.value)} 
                       required 
@@ -133,6 +135,7 @@ export const ContactPage: React.FC = () => {
                     <input 
                       type="text" 
                       className="editorial-input-thin" 
+                      placeholder="Inquiry topic"
                       value={formSubject} 
                       onChange={(e) => setFormSubject(e.target.value)} 
                     />
@@ -157,14 +160,15 @@ export const ContactPage: React.FC = () => {
                     <label className="editorial-label">Message *</label>
                     <textarea 
                       className="editorial-textarea-thin" 
-                      rows={4} 
+                      rows={5} 
+                      placeholder="How may we assist your academic inquiry?"
                       value={formMessage} 
                       onChange={(e) => setFormMessage(e.target.value)} 
                       required 
                     />
                   </div>
 
-                  <button type="submit" className="btn-editorial-primary w-full" style={{ marginTop: '1rem' }}>
+                  <button type="submit" className="btn-editorial-primary w-full" style={{ padding: '1rem' }}>
                     SEND MESSAGE →
                   </button>
                 </form>
@@ -174,11 +178,11 @@ export const ContactPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. FAQ ACCORDION SECTION */}
+      {/* 3. FAQ SECTION */}
       <section className="section-space border-top-thin">
         <div className="academia-container">
-          <span className="micro-eyebrow">COMMON QUESTIONS</span>
-          <h2 className="section-serif-heading">Frequently Asked Questions</h2>
+          <span className="micro-eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+          <h2 className="section-serif-heading">Common Inquiries</h2>
 
           <div className="syllabus-accordion-stack" style={{ marginTop: '2rem' }}>
             {faqs.map((faq, idx) => {
@@ -189,7 +193,7 @@ export const ContactPage: React.FC = () => {
                     className="accordion-header-flex flex-between cursor-pointer"
                     onClick={() => setActiveFaqIndex(isOpen ? null : idx)}
                   >
-                    <h3 className="ann-title">{faq.q}</h3>
+                    <h3 className="ann-title" style={{ fontSize: '1.4rem' }}>{faq.q}</h3>
                     <span className="accordion-toggle-sym">{isOpen ? '−' : '+'}</span>
                   </div>
 
@@ -202,20 +206,6 @@ export const ContactPage: React.FC = () => {
               );
             })}
           </div>
-        </div>
-      </section>
-
-      {/* 4. SUPPORT CTA SECTION */}
-      <section className="section-space border-top-thin">
-        <div className="academia-container text-center">
-          <span className="micro-eyebrow">ACADEMIC SUPPORT</span>
-          <h2 className="section-serif-heading">Need Support?</h2>
-          <p className="hero-lead-desc" style={{ maxWidth: '600px', margin: '0.8rem auto 1.5rem' }}>
-            Our academic support team is available to help with course access, enrollment, scheduling, and technical questions.
-          </p>
-          <button className="btn-editorial-primary" onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })}>
-            CONTACT SUPPORT →
-          </button>
         </div>
       </section>
     </div>
