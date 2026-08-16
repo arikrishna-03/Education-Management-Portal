@@ -21,14 +21,14 @@ export const PublicNavbar: React.FC = () => {
           <Link to="/" className={`academia-nav-link ${path === '/' ? 'active' : ''}`}>
             Home
           </Link>
-          <Link to="/courses" className={`academia-nav-link ${path.startsWith('/courses') ? 'active' : ''}`}>
+          <Link to="/courses" className={`academia-nav-link ${path === '/courses' ? 'active' : ''}`}>
             Courses
           </Link>
           <Link to="/contact" className={`academia-nav-link ${path === '/contact' ? 'active' : ''}`}>
             Contact
           </Link>
-          <Link to="/app" className="academia-nav-link">
-            Workspace
+          <Link to="/courses/arc-118" className={`academia-nav-link ${path.startsWith('/courses/') ? 'active' : ''}`}>
+            Course Details
           </Link>
         </nav>
 
@@ -54,8 +54,7 @@ export const PublicNavbar: React.FC = () => {
             <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
             <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
-            <Link to="/app" onClick={() => setMobileMenuOpen(false)}>Academic Workspace</Link>
-            <Link to="/mentor" onClick={() => setMobileMenuOpen(false)}>Mentor Portal</Link>
+            <Link to="/courses/arc-118" onClick={() => setMobileMenuOpen(false)}>Course Details</Link>
           </nav>
         </div>
       )}

@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/courses">Courses</Link></li>
               <li><Link to="/contact">Contact</Link></li>
-              <li><Link to="/app">Workspace Portal</Link></li>
+              <li><Link to="/courses/arc-118">Course Details</Link></li>
             </ul>
           </div>
 
