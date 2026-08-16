@@ -1,234 +1,253 @@
 import React, { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  Star, 
-  Users, 
-  Clock, 
-  Award, 
-  CheckCircle2, 
-  BookOpen, 
-  Calendar, 
-  MessageSquare, 
-  ArrowLeft, 
-  ArrowRight,
-  ShieldCheck
-} from 'lucide-react';
-import { MOCK_COURSES, User } from '../data/edutrData';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
-interface CourseDetailsPageProps {
-  currentUser: User;
-  onTriggerToast: (type: 'success' | 'info', title: string, msg: string) => void;
-}
-
-export const CourseDetailsPage: React.FC<CourseDetailsPageProps> = ({ currentUser, onTriggerToast }) => {
-  const { courseId } = useParams<{ courseId: string }>();
+export const CourseDetailsPage: React.FC = () => {
+  const { courseId } = useParams();
   const navigate = useNavigate();
 
-  const [isEnrolled, setIsEnrolled] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'outcomes' | 'reviews'>('overview');
+  const [activeSyllabusIndex, setActiveSyllabusIndex] = useState<number | null>(0);
+  const [enrollSuccess, setEnrollSuccess] = useState(false);
 
-  const course = MOCK_COURSES.find((c) => c.id === courseId) || MOCK_COURSES[0];
+  // Syllabus accordion data
+  const syllabusModules = [
+    {
+      num: '01',
+      title: 'Introduction to Spatial Thinking',
+      details: 'Managing intrinsic cognitive load in environmental layouts, structural geometry, and perceptual volume.'
+    },
+    {
+      num: '02',
+      title: 'Space, Structure & Human Behaviour',
+      details: 'Analyzing pedestrian vector flow, high-density public corridors, and spatial psychology.'
+    },
+    {
+      num: '03',
+      title: 'Observation & Field Analysis',
+      details: 'Fieldwork methodologies for spatial mapping, vector blueprint recording, and empirical observation.'
+    },
+    {
+      num: '04',
+      title: 'Applied Design Methods',
+      details: 'Constructing high-resolution 3D spatial models and environmental critique presentations.'
+    },
+    {
+      num: '05',
+      title: 'Final Research Studio Project',
+      details: 'Synthesis of spatial theory into a final peer-reviewed architectural design thesis.'
+    }
+  ];
 
   const handleEnrollClick = () => {
-    if (currentUser.role === 'public') {
-      onTriggerToast('info', 'Authentication Required', 'Please log in or register to enroll in academic courses.');
-      navigate('/login');
-    } else {
-      setIsEnrolled(true);
-      onTriggerToast('success', 'Enrollment Complete!', `You are now enrolled in ${course.code}: ${course.name}.`);
-    }
+    setEnrollSuccess(true);
+    setTimeout(() => {
+      navigate('/app/courses');
+    }, 1500);
   };
 
   return (
-    <div className="page-wrapper public-theme-blue">
-      {/* Back Button */}
-      <div className="page-container" style={{ paddingTop: '1.5rem' }}>
-        <Link to="/courses" className="btn-ghost-blue flex-align gap-1">
-          <ArrowLeft size={16} /> Back to Course Directory
-        </Link>
-      </div>
-
-      {/* Hero Course Header Banner */}
-      <div className="course-detail-hero">
-        <div className="page-container grid-2-1">
-          <div>
-            <div className="flex-align gap-2" style={{ marginBottom: '0.8rem' }}>
-              <span className="course-code-pill-lg">{course.code}</span>
-              <span className="tag-blue">{course.category}</span>
-              <span className="badge-indigo-light">{course.difficulty} Level</span>
-            </div>
-            
-            <h1 className="course-detail-title">{course.name}</h1>
-            <p className="course-detail-desc">{course.description}</p>
-
-            <div className="course-detail-meta-row flex-align gap-4">
-              <span className="flex-align gap-1 font-bold text-amber">
-                <Star size={16} fill="#f59e0b" /> {course.rating} ({course.reviewsCount} reviews)
-              </span>
-              <span className="flex-align gap-1 text-muted">
-                <Users size={16} /> {course.studentsCount} Students Enrolled
-              </span>
-              <span className="flex-align gap-1 text-muted">
-                <Clock size={16} /> {course.duration}
-              </span>
-            </div>
-
-            {/* Instructor Quick Info */}
-            <div className="instructor-detail-bar flex-align gap-3">
-              <img src={course.instructorAvatar} alt={course.instructor} className="avatar-md" />
-              <div>
-                <h4 className="inst-name-md">{course.instructor}</h4>
-                <span className="inst-title-md">{course.instructorTitle}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Enrollment CTA Box */}
-          <div className="course-cta-card">
-            <img src={course.image} alt={course.name} className="cta-card-img" />
-            <div className="cta-card-body">
-              <div className="cta-price-row flex-between">
-                <span className="text-muted text-xs font-bold">COURSE TUITION</span>
-                <strong className="cta-price-val">{course.price}</strong>
-              </div>
-
-              {!isEnrolled ? (
-                <button className="btn-enroll-primary" onClick={handleEnrollClick}>
-                  Enroll Now <ArrowRight size={18} />
-                </button>
-              ) : (
-                <button className="btn-enroll-success" onClick={() => navigate('/dashboard')}>
-                  <CheckCircle2 size={18} /> Access Course Dashboard
-                </button>
-              )}
-
-              <p className="text-center text-xs text-muted" style={{ marginTop: '0.8rem' }}>
-                Full access to assignments, exam simulators, and AI feedback.
+    <div className="academia-page">
+      {/* 1. COURSE DETAIL HERO */}
+      <section className="course-detail-hero">
+        <div className="academia-container">
+          <div className="hero-split-grid">
+            <div className="hero-text-col">
+              <span className="micro-category-label">DESIGN & ARCHITECTURE</span>
+              <h1 className="hero-serif-title" style={{ fontSize: '3rem', margin: '0.5rem 0' }}>
+                Spatial Thinking & Environmental Architecture
+              </h1>
+              <p className="hero-lead-desc" style={{ marginBottom: '1.5rem' }}>
+                Understand how space shapes human experience through architecture, structural design, and empirical observation.
               </p>
 
-              <div className="cta-features-list">
-                <div className="feat-item flex-align gap-2"><BookOpen size={14} className="text-blue" /> {course.syllabus.length} Module Lessons</div>
-                <div className="feat-item flex-align gap-2"><Calendar size={14} className="text-blue" /> {course.schedule}</div>
-                <div className="feat-item flex-align gap-2"><ShieldCheck size={14} className="text-emerald" /> University Credit Eligible</div>
+              <div className="course-hero-meta-row flex-align gap-4">
+                <div>
+                  <span className="micro-eyebrow">INSTRUCTOR</span>
+                  <strong className="meta-val-text">Dr. Leila Haddad</strong>
+                </div>
+                <div className="divider-vert" />
+                <div>
+                  <span className="micro-eyebrow">DURATION</span>
+                  <strong className="meta-val-text">12 Weeks · Advanced</strong>
+                </div>
+                <div className="divider-vert" />
+                <div>
+                  <span className="micro-eyebrow">FORMAT</span>
+                  <strong className="meta-val-text">On Campus / Hybrid</strong>
+                </div>
+              </div>
+
+              <div style={{ marginTop: '2rem' }}>
+                <button className="btn-editorial-primary" onClick={handleEnrollClick}>
+                  {enrollSuccess ? 'ENROLLED SUCCESSFULLY ✓' : 'ENROLL NOW →'}
+                </button>
+              </div>
+            </div>
+
+            <div className="hero-image-col">
+              <div className="hero-image-frame">
+                <img 
+                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Spatial Thinking Architecture" 
+                  className="editorial-img"
+                />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Course Content Tabs */}
-      <div className="page-container section-padding">
-        <div className="course-detail-tabs-bar">
-          <button 
-            className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            Overview
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'syllabus' ? 'active' : ''}`}
-            onClick={() => setActiveTab('syllabus')}
-          >
-            Syllabus & Schedule
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'outcomes' ? 'active' : ''}`}
-            onClick={() => setActiveTab('outcomes')}
-          >
-            Learning Outcomes
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
-            onClick={() => setActiveTab('reviews')}
-          >
-            Student Reviews ({course.reviewsCount})
-          </button>
+      {/* 2. COURSE INFO SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">COURSE INFORMATION</span>
+          <h2 className="section-serif-heading">Overview & Outcomes</h2>
+
+          <div className="grid-2-1" style={{ marginTop: '2rem', gap: '3rem' }}>
+            {/* Left: Overview text */}
+            <div>
+              <h3 className="sub-serif-title">Curriculum Foundations</h3>
+              <p className="body-editorial-p">
+                This course examines the fundamental principles of spatial geometry, architectural volume, and environmental psychology. Students learn to decode how human behavior interacts with built spaces across high-density urban corridors and academic institutions.
+              </p>
+              
+              <h3 className="sub-serif-title" style={{ marginTop: '2rem' }}>Key Learning Outcomes</h3>
+              <ul className="editorial-bullet-list">
+                <li>Formulate rigorous spatial analysis matrices for architectural site evaluations.</li>
+                <li>Apply cognitive load theory to public navigation and spatial orientation.</li>
+                <li>Construct vector blueprints demonstrating 3D spatial zoning and human flow.</li>
+                <li>Synthesize empirical research into an architectural critique portfolio.</li>
+              </ul>
+            </div>
+
+            {/* Right: Sticky Enrollment Sidebar Panel */}
+            <div>
+              <div className="sticky-enrollment-card">
+                <span className="micro-eyebrow">TUITION & ADMISSION</span>
+                <h2 className="tuition-price">€480</h2>
+                
+                <div className="tuition-spec-list">
+                  <div className="spec-item flex-between">
+                    <span>Duration</span>
+                    <strong>12 Weeks</strong>
+                  </div>
+                  <div className="spec-item flex-between">
+                    <span>Level</span>
+                    <strong>Advanced</strong>
+                  </div>
+                  <div className="spec-item flex-between">
+                    <span>Certificate</span>
+                    <strong>Institutional Accredited</strong>
+                  </div>
+                  <div className="spec-item flex-between">
+                    <span>Format</span>
+                    <strong>Studio Lectures</strong>
+                  </div>
+                </div>
+
+                <button className="btn-editorial-primary w-full" onClick={handleEnrollClick}>
+                  {enrollSuccess ? 'ENROLLED ✓' : 'ENROLL NOW →'}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Tab 1: Overview */}
-        {activeTab === 'overview' && (
-          <div className="tab-content-box">
-            <h3 className="section-title-sm">Course Overview & Objectives</h3>
-            <p className="detail-para">{course.description}</p>
-            
-            <h4 className="section-title-sm" style={{ marginTop: '1.8rem' }}>Course Prerequisites</h4>
-            <ul className="prereq-bullets">
-              {course.requirements.map((req, idx) => (
-                <li key={idx} className="flex-align gap-2">
-                  <CheckCircle2 size={16} className="text-emerald" /> {req}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+      {/* 3. SYLLABUS SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">CURRICULUM ARCHITECTURE</span>
+          <h2 className="section-serif-heading">Course Syllabus</h2>
 
-        {/* Tab 2: Syllabus & Schedule */}
-        {activeTab === 'syllabus' && (
-          <div className="tab-content-box">
-            <h3 className="section-title-sm">Class Schedule</h3>
-            <div className="schedule-box flex-align gap-2" style={{ marginBottom: '1.8rem' }}>
-              <Calendar size={18} className="text-blue" />
-              <strong>{course.schedule}</strong>
-            </div>
-
-            <h3 className="section-title-sm">Week-by-Week Syllabus</h3>
-            <div className="syllabus-accordion">
-              {course.syllabus.map((mod) => (
-                <div key={mod.week} className="syllabus-module-card">
-                  <div className="mod-week-pill">Week {mod.week}</div>
-                  <div>
-                    <h4 className="mod-topic">{mod.topic}</h4>
-                    <p className="mod-details">{mod.details}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Tab 3: Outcomes */}
-        {activeTab === 'outcomes' && (
-          <div className="tab-content-box">
-            <h3 className="section-title-sm">What You Will Master</h3>
-            <div className="outcomes-grid">
-              {course.learningOutcomes.map((outcome, idx) => (
-                <div key={idx} className="outcome-card flex-align gap-3">
-                  <CheckCircle2 size={20} className="text-emerald flex-shrink-0" />
-                  <span>{outcome}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Tab 4: Reviews */}
-        {activeTab === 'reviews' && (
-          <div className="tab-content-box">
-            <h3 className="section-title-sm">Student Testimonials & Reviews</h3>
-            {course.reviewsList.length === 0 ? (
-              <p className="text-muted">No student reviews published yet for this semester.</p>
-            ) : (
-              course.reviewsList.map((rev) => (
-                <div key={rev.id} className="review-card">
-                  <div className="flex-between">
-                    <div className="flex-align gap-2">
-                      <img src={rev.avatar} alt={rev.user} className="avatar-xs" />
-                      <div>
-                        <strong className="text-sm">{rev.user}</strong>
-                        <span className="text-xs text-muted block">{rev.date}</span>
-                      </div>
+          <div className="syllabus-accordion-stack" style={{ marginTop: '2rem' }}>
+            {syllabusModules.map((mod, idx) => {
+              const isOpen = activeSyllabusIndex === idx;
+              return (
+                <div key={mod.num} className="accordion-item-editorial">
+                  <div 
+                    className="accordion-header-flex flex-between cursor-pointer"
+                    onClick={() => setActiveSyllabusIndex(isOpen ? null : idx)}
+                  >
+                    <div className="flex-align gap-4">
+                      <span className="ann-num">{mod.num}</span>
+                      <h3 className="ann-title">{mod.title}</h3>
                     </div>
-                    <span className="flex-align gap-1 font-bold text-amber">
-                      <Star size={14} fill="#f59e0b" /> {rev.rating}.0
-                    </span>
+                    <span className="accordion-toggle-sym">{isOpen ? '−' : '+'}</span>
                   </div>
-                  <p className="review-comment">{rev.comment}</p>
+
+                  {isOpen && (
+                    <div className="accordion-content-body">
+                      <p className="body-editorial-p">{mod.details}</p>
+                    </div>
+                  )}
                 </div>
-              ))
-            )}
+              );
+            })}
           </div>
-        )}
-      </div>
+        </div>
+      </section>
+
+      {/* 4. TEACHER INFORMATION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">FACULTY PROFILE</span>
+          <h2 className="section-serif-heading">Instructor Information</h2>
+
+          <div className="grid-2-1" style={{ marginTop: '2rem', gap: '3rem' }}>
+            <div className="faculty-portrait-frame" style={{ maxHeight: '450px' }}>
+              <img 
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
+                alt="Dr. Leila Haddad" 
+                className="editorial-img grayscale-img"
+              />
+            </div>
+
+            <div>
+              <span className="micro-category-label">PROFESSOR OF ARCHITECTURE</span>
+              <h2 className="hero-serif-title" style={{ fontSize: '2.5rem', margin: '0.3rem 0' }}>Dr. Leila Haddad</h2>
+              <p className="role-subtext">Institute of Spatial Studies · Senior Faculty Fellow</p>
+              
+              <p className="body-editorial-p" style={{ marginTop: '1.2rem' }}>
+                Dr. Haddad holds a Ph.D. in Architectural Geometry from ETH Zürich. Her research focuses on high-density pedestrian corridors, environmental psychology, and the cognitive experience of architectural space.
+              </p>
+
+              <h4 className="sub-serif-title" style={{ marginTop: '1.5rem' }}>Areas of Expertise</h4>
+              <p className="body-editorial-p">Spatial Thinking · Urban Corridor Analysis · Vector Blueprint Systems · Architectural Theory</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. SCHEDULE SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">TIMELINE & VENUE</span>
+          <h2 className="section-serif-heading">Course Schedule</h2>
+
+          <div className="schedule-editorial-grid" style={{ marginTop: '2rem' }}>
+            <div className="schedule-cell">
+              <span className="micro-eyebrow">START DATE</span>
+              <strong className="sched-val font-serif">14 September 2026</strong>
+            </div>
+            <div className="schedule-cell">
+              <span className="micro-eyebrow">DURATION</span>
+              <strong className="sched-val font-serif">12 Weeks</strong>
+            </div>
+            <div className="schedule-cell">
+              <span className="micro-eyebrow">LECTURE DAYS</span>
+              <strong className="sched-val font-serif">Tuesday & Thursday</strong>
+            </div>
+            <div className="schedule-cell">
+              <span className="micro-eyebrow">TIME WINDOW</span>
+              <strong className="sched-val font-serif">18:00 – 20:00 GMT</strong>
+            </div>
+            <div className="schedule-cell">
+              <span className="micro-eyebrow">VENUE</span>
+              <strong className="sched-val font-serif">Studio Hall 102</strong>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

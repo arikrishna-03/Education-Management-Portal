@@ -1,94 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { GraduationCap, ArrowRight, ShieldCheck, UserCheck, Sparkles } from 'lucide-react';
-import { User } from '../data/edutrData';
+import { ArrowRight, Menu, X } from 'lucide-react';
 
-interface PublicNavbarProps {
-  currentUser: User;
-  onSwitchUserRole: (role: 'public' | 'student' | 'teacher' | 'admin') => void;
-}
-
-export const PublicNavbar: React.FC<PublicNavbarProps> = ({ currentUser, onSwitchUserRole }) => {
+export const PublicNavbar: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="public-navbar">
-      <div className="public-nav-container">
-        {/* Brand Logo */}
-        <Link to="/" className="nav-brand">
-          <div className="nav-brand-icon">
-            <GraduationCap size={22} />
-          </div>
-          <div className="nav-brand-text">
-            <span className="brand-name">EduTR</span>
-            <span className="brand-tag">AI ACADEMIC PLATFORM</span>
-          </div>
+    <header className="academia-navbar">
+      <div className="academia-nav-container">
+        {/* Typographic Logo */}
+        <Link to="/" className="academia-brand flex-align gap-2">
+          <span className="brand-mark">ACADEMIA</span>
+          <span className="brand-sub">Academic Institute</span>
         </Link>
 
-        {/* Public Navigation Links */}
-        <nav className="public-nav-links">
-          <Link to="/" className={`nav-link ${path === '/' ? 'active' : ''}`}>
+        {/* Minimal Nav Links */}
+        <nav className="academia-nav-links desktop-only">
+          <Link to="/" className={`academia-nav-link ${path === '/' ? 'active' : ''}`}>
             Home
           </Link>
-          <Link to="/courses" className={`nav-link ${path.startsWith('/courses') ? 'active' : ''}`}>
+          <Link to="/courses" className={`academia-nav-link ${path.startsWith('/courses') ? 'active' : ''}`}>
             Courses
           </Link>
-          <Link to="/contact" className={`nav-link ${path === '/contact' ? 'active' : ''}`}>
+          <Link to="/contact" className={`academia-nav-link ${path === '/contact' ? 'active' : ''}`}>
             Contact
           </Link>
-          <Link to="/mentor" className={`nav-link ${path.startsWith('/mentor') ? 'active' : ''}`}>
-            Mentor Portal
+          <Link to="/app" className="academia-nav-link">
+            Workspace
           </Link>
         </nav>
 
-        {/* Role Switcher Pill & Actions */}
-        <div className="public-nav-actions">
-          {/* Quick Role Simulator Switcher */}
-          <div className="role-switcher-pill">
-            <span className="role-switcher-label">Demo Role:</span>
-            <button 
-              className={`role-btn ${currentUser.role === 'public' ? 'active' : ''}`}
-              onClick={() => onSwitchUserRole('public')}
-            >
-              Guest
-            </button>
-            <button 
-              className={`role-btn ${currentUser.role === 'student' ? 'active' : ''}`}
-              onClick={() => onSwitchUserRole('student')}
-            >
-              Student
-            </button>
-            <button 
-              className={`role-btn ${currentUser.role === 'teacher' ? 'active' : ''}`}
-              onClick={() => onSwitchUserRole('teacher')}
-            >
-              Teacher
-            </button>
-            <button 
-              className={`role-btn ${currentUser.role === 'admin' ? 'active' : ''}`}
-              onClick={() => onSwitchUserRole('admin')}
-            >
-              Admin
-            </button>
-          </div>
+        {/* Action Button */}
+        <div className="academia-nav-actions flex-align gap-3">
+          <Link to="/courses" className="btn-academia-text flex-align gap-2 desktop-only">
+            EXPLORE COURSES <span className="arrow-sym">→</span>
+          </Link>
 
-          {currentUser.role !== 'public' ? (
-            <Link to={currentUser.role === 'admin' ? '/admin' : '/dashboard'} className="btn-nav-portal">
-              Go to Portal <ArrowRight size={16} />
-            </Link>
-          ) : (
-            <>
-              <Link to="/login" className="btn-nav-login">
-                Login
-              </Link>
-              <Link to="/courses" className="btn-nav-primary">
-                Get Started <ArrowRight size={16} />
-              </Link>
-            </>
-          )}
+          <button 
+            className="mobile-menu-btn hide-desktop"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="academia-mobile-drawer">
+          <nav className="mobile-drawer-links">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            <Link to="/app" onClick={() => setMobileMenuOpen(false)}>Academic Workspace</Link>
+            <Link to="/mentor" onClick={() => setMobileMenuOpen(false)}>Mentor Portal</Link>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };

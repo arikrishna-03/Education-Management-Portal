@@ -1,164 +1,187 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Filter, Star, Users, Clock, Award, CheckCircle2, ArrowRight, BookOpen } from 'lucide-react';
-import { MOCK_COURSES } from '../data/edutrData';
+import { useNavigate } from 'react-router-dom';
 
-interface CoursesPageProps {
-  onSelectCourse: (id: string) => void;
-}
+export const CoursesPage: React.FC = () => {
+  const navigate = useNavigate();
 
-export const CoursesPage: React.FC<CoursesPageProps> = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('All');
-  const [selectedPrice, setSelectedPrice] = useState('All');
-  const [sortBy, setSortBy] = useState<'rating' | 'popularity' | 'newest'>('rating');
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
 
-  const categories = ['All', 'Artificial Intelligence', 'Software Engineering', 'Cybersecurity', 'Data Science'];
+  const categories = ['ALL', 'ARTS', 'SCIENCE', 'BUSINESS', 'TECHNOLOGY', 'DESIGN', 'RESEARCH', 'LANGUAGE'];
 
-  // Filter & Sort
-  const filteredCourses = MOCK_COURSES.filter((course) => {
-    const matchesSearch = 
-      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(searchQuery.toLowerCase());
+  const allCourses = [
+    {
+      id: 'arc-118',
+      category: 'DESIGN',
+      categoryLabel: 'ARCHITECTURE & DESIGN',
+      title: 'Spatial Thinking & Environmental Architecture',
+      desc: 'A study of space, structure, and the relationship between human experience and built environments.',
+      instructor: 'Dr. Leila Haddad',
+      duration: '12 weeks',
+      level: 'Advanced',
+      rating: '4.9 ★',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'edu-204',
+      category: 'ARTS',
+      categoryLabel: 'PEDAGOGICAL DESIGN',
+      title: 'Learning Design & Pedagogical Frameworks',
+      desc: 'Exploring cognitive load theory, instructional architecture, and systemic educational models.',
+      instructor: 'Dr. Sarah Jenkins',
+      duration: '10 weeks',
+      level: 'Intermediate',
+      rating: '4.8 ★',
+      image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'com-210',
+      category: 'RESEARCH',
+      categoryLabel: 'ACADEMIC SYNTHESIS',
+      title: 'Academic Writing & Research Synthesis',
+      desc: 'Synthesizing empirical sources into structured literature matrices and peer-reviewed papers.',
+      instructor: 'Dr. Marcus Brody',
+      duration: '8 weeks',
+      level: 'Foundation',
+      rating: '4.9 ★',
+      image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'cs-312',
+      category: 'TECHNOLOGY',
+      categoryLabel: 'APPLIED AI & COMPUTING',
+      title: 'Applied AI & Neural Learning Systems',
+      desc: 'Rigorous analysis of deep learning architectures, tensor backpropagation, and cognitive modeling.',
+      instructor: 'Prof. David Vance',
+      duration: '14 weeks',
+      level: 'Advanced',
+      rating: '4.8 ★',
+      image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'mth-201',
+      category: 'SCIENCE',
+      categoryLabel: 'MATHEMATICS',
+      title: 'Research Methods & Statistical Inference',
+      desc: 'Parametric and non-parametric statistical hypothesis testing for empirical research designs.',
+      instructor: 'Dr. Amina Vance',
+      duration: '12 weeks',
+      level: 'Intermediate',
+      rating: '4.7 ★',
+      image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1000'
+    }
+  ];
 
-    const matchesCat = selectedCategory === 'All' || course.category === selectedCategory;
-    const matchesDiff = selectedDifficulty === 'All' || course.difficulty === selectedDifficulty;
-    const matchesPrice = selectedPrice === 'All' || course.price === selectedPrice;
+  const filteredCourses = allCourses.filter((course) => {
+    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          course.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          course.instructor.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = selectedCategory === 'ALL' || course.category === selectedCategory;
 
-    return matchesSearch && matchesCat && matchesDiff && matchesPrice;
-  }).sort((a, b) => {
-    if (sortBy === 'rating') return b.rating - a.rating;
-    if (sortBy === 'popularity') return b.studentsCount - a.studentsCount;
-    return b.code.localeCompare(a.code);
+    return matchesSearch && matchesCategory;
   });
 
-  return (
-    <div className="page-wrapper public-theme-blue">
-      {/* Header Banner */}
-      <div className="page-header-banner">
-        <div className="page-container">
-          <span className="section-eyebrow text-blue">EXPLORE CURRICULUM</span>
-          <h1 className="page-title-lg">Academic Course Catalog</h1>
-          <p className="page-subtitle">Discover accredited university courses, deep-dive AI modules, and practical cloud engineering labs.</p>
-        </div>
-      </div>
+  const topRatedCourses = [
+    { id: 'com-210', num: '01', title: 'Academic Writing & Research Synthesis', rating: '4.9 ★' },
+    { id: 'arc-118', num: '02', title: 'Spatial Thinking & Environmental Architecture', rating: '4.9 ★' },
+    { id: 'cs-312', num: '03', title: 'Applied AI & Neural Learning Systems', rating: '4.8 ★' }
+  ];
 
-      {/* Main Filter & Catalog Section */}
-      <div className="page-container section-padding">
-        {/* Search & Filter Toolbar */}
-        <div className="catalog-toolbar">
-          <div className="catalog-search-box">
-            <Search size={18} className="search-icon" />
+  return (
+    <div className="academia-page">
+      {/* 1. COURSES PAGE HEADER */}
+      <section className="courses-hero-header">
+        <div className="academia-container">
+          <span className="micro-eyebrow">CURRICULUM CATALOG</span>
+          <h1 className="hero-serif-title">Study with intention.</h1>
+          <p className="hero-lead-desc" style={{ maxWidth: '700px' }}>
+            Explore a carefully curated collection of academic courses taught by experienced educators and practitioners.
+          </p>
+        </div>
+      </section>
+
+      {/* 2. MINIMALIST SEARCH & FILTER SECTION */}
+      <section className="section-space-sm border-top-thin">
+        <div className="academia-container">
+          {/* Minimalist Search Input */}
+          <div className="search-field-minimal">
             <input 
               type="text" 
-              placeholder="Search course code, topic, or professor name..."
+              placeholder="Search courses..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input-underline"
             />
+            <span className="search-icon-symbol">⌕</span>
           </div>
 
-          <div className="catalog-filter-group">
-            {/* Category */}
-            <div className="filter-item">
-              <label>Category:</label>
-              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
-
-            {/* Difficulty */}
-            <div className="filter-item hide-mobile">
-              <label>Level:</label>
-              <select value={selectedDifficulty} onChange={(e) => setSelectedDifficulty(e.target.value)}>
-                <option value="All">All Levels</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-
-            {/* Price */}
-            <div className="filter-item hide-mobile">
-              <label>Access:</label>
-              <select value={selectedPrice} onChange={(e) => setSelectedPrice(e.target.value)}>
-                <option value="All">All Courses</option>
-                <option value="Free">Free</option>
-                <option value="$99">Paid / Credit</option>
-              </select>
-            </div>
-
-            {/* Sort */}
-            <div className="filter-item">
-              <label>Sort By:</label>
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}>
-                <option value="rating">Top Rated</option>
-                <option value="popularity">Most Popular</option>
-                <option value="newest">Course Code</option>
-              </select>
-            </div>
+          {/* Understated Filter Categories */}
+          <div className="category-filters-row">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`filter-text-btn ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Courses Grid */}
-        <div className="courses-grid-3">
-          {filteredCourses.length === 0 ? (
-            <div className="empty-state-card col-span-full">
-              <BookOpen size={44} className="text-muted" />
-              <h3>No courses found matching criteria</h3>
-              <p>Try broadening your category or difficulty search filter.</p>
-              <button 
-                className="btn-secondary-sm" 
-                onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedDifficulty('All'); }}
-              >
-                Reset Filters
-              </button>
-            </div>
-          ) : (
-            filteredCourses.map((course) => (
-              <div key={course.id} className="public-course-card">
-                <div className="course-card-img-wrapper">
-                  <img src={course.image} alt={course.name} className="course-card-img" />
-                  <span className="course-badge-price">{course.price}</span>
-                  <span className="course-code-tag-overlay">{course.code}</span>
+      {/* 3. LUXURY EDITORIAL COURSE GRID */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <div className="featured-courses-grid">
+            {filteredCourses.map((course) => (
+              <div key={course.id} className="course-editorial-card" onClick={() => navigate(`/courses/${course.id}`)}>
+                <div className="course-img-box">
+                  <img src={course.image} alt={course.title} className="editorial-img" />
                 </div>
-                <div className="course-card-body">
-                  <div className="flex-between text-xs" style={{ marginBottom: '0.4rem' }}>
-                    <span className="tag-blue">{course.category}</span>
-                    <span className="flex-align gap-1 font-bold text-amber">
-                      <Star size={14} fill="#f59e0b" /> {course.rating} ({course.reviewsCount})
-                    </span>
-                  </div>
-                  <h3 className="public-course-title">{course.name}</h3>
-                  <p className="public-course-desc">{course.description}</p>
-
-                  <div className="instructor-row-sm">
-                    <img src={course.instructorAvatar} alt={course.instructor} className="avatar-xs" />
-                    <div>
-                      <h5 className="inst-name">{course.instructor}</h5>
-                      <span className="inst-title">{course.instructorTitle}</span>
-                    </div>
-                  </div>
-
-                  <div className="course-meta-pills-row flex-align gap-3 text-xs text-muted" style={{ margin: '0.8rem 0' }}>
-                    <span className="flex-align gap-1"><Clock size={12} /> {course.duration}</span>
-                    <span className="flex-align gap-1"><Award size={12} /> {course.difficulty}</span>
-                    <span className="flex-align gap-1"><Users size={12} /> {course.studentsCount} Students</span>
-                  </div>
-
-                  <div className="card-footer-flex">
-                    <span className="text-xs text-muted">{course.syllabus.length} Modules</span>
-                    <Link to={`/courses/${course.id}`} className="btn-card-view">
-                      View Course Details <ArrowRight size={14} />
-                    </Link>
+                <div className="course-content-box">
+                  <span className="micro-category-label">{course.categoryLabel}</span>
+                  <h3 className="course-serif-title">{course.title}</h3>
+                  <p className="course-body-desc">{course.desc}</p>
+                  
+                  <div className="course-meta-bottom flex-between">
+                    <span className="meta-text">{course.instructor} · {course.duration}</span>
+                    <span className="btn-view-link">VIEW COURSE →</span>
                   </div>
                 </div>
               </div>
-            ))
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* 4. TOP RATED COURSES SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">ACADEMIC BENCHMARKS</span>
+          <h2 className="section-serif-heading">Top Rated Courses</h2>
+
+          <div className="top-rated-list" style={{ marginTop: '2rem' }}>
+            {topRatedCourses.map((item) => (
+              <div 
+                key={item.id} 
+                className="top-rated-row flex-between cursor-pointer"
+                onClick={() => navigate(`/courses/${item.id}`)}
+              >
+                <div className="flex-align gap-4">
+                  <span className="ann-num">{item.num}</span>
+                  <h3 className="ann-title">{item.title}</h3>
+                </div>
+                <div className="flex-align gap-4">
+                  <span className="rating-badge">{item.rating}</span>
+                  <span className="arrow-hover">→</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

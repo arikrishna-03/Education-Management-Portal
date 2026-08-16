@@ -1,73 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, Heart, Shield } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="edutr-footer">
-      <div className="footer-container">
-        <div className="footer-grid">
+    <footer className="academia-footer">
+      <div className="academia-footer-container">
+        <div className="footer-top-grid">
           {/* Brand Info */}
           <div className="footer-brand-col">
-            <div className="nav-brand" style={{ marginBottom: '1rem' }}>
-              <div className="nav-brand-icon">
-                <GraduationCap size={22} />
-              </div>
-              <div className="nav-brand-text">
-                <span className="brand-name">EduTR</span>
-                <span className="brand-tag">ACADEMIC OPERATING SYSTEM</span>
-              </div>
-            </div>
-            <p className="footer-desc">
-              AI-powered academic learning, intelligent performance analysis, and institutional administration platform.
+            <span className="footer-brand-title">ACADEMIA</span>
+            <p className="footer-brand-desc">
+              A place for deeper learning. Dedicated to rigorous academic inquiry, architectural spatial thinking, and intellectual independence.
             </p>
-            <div className="footer-security-tag flex-align gap-2">
-              <Shield size={14} className="text-emerald" />
-              <span>ISO 27001 Accredited & EU AI Act Compliant</span>
-            </div>
           </div>
 
-          {/* Column 1: Platform */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">Platform</h4>
-            <ul className="footer-links">
-              <li><Link to="/courses">Courses Directory</Link></li>
-              <li><Link to="/assignments">Assignments Studio</Link></li>
-              <li><Link to="/exams-grades">Exams & Grades</Link></li>
-              <li><Link to="/ai">AI Engine Insights</Link></li>
-              <li><Link to="/reports">Analytics Reports</Link></li>
+          {/* Nav Column 1 */}
+          <div className="footer-nav-col">
+            <span className="footer-col-label">NAVIGATION</span>
+            <ul className="footer-link-list">
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/courses">Courses</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
+              <li><Link to="/app">Workspace Portal</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: Resources */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">Resources</h4>
-            <ul className="footer-links">
-              <li><Link to="/contact">Help Center</Link></li>
-              <li><Link to="/contact">FAQ Knowledgebase</Link></li>
-              <li><Link to="/contact">Contact Support</Link></li>
-              <li><Link to="/performance-reports">Institutional Performance</Link></li>
+          {/* Nav Column 2 */}
+          <div className="footer-nav-col">
+            <span className="footer-col-label">DISCIPLINE</span>
+            <ul className="footer-link-list">
+              <li><Link to="/courses">Spatial & Architecture</Link></li>
+              <li><Link to="/courses">Pedagogical Design</Link></li>
+              <li><Link to="/courses">Academic Writing</Link></li>
+              <li><Link to="/courses">Applied AI & Computing</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Account */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">Account</h4>
-            <ul className="footer-links">
-              <li><Link to="/login">Student / Faculty Login</Link></li>
-              <li><Link to="/login">Register Account</Link></li>
-              <li><Link to="/dashboard">My Dashboard</Link></li>
-              <li><Link to="/admin/login">Admin Secure Portal</Link></li>
+          {/* Nav Column 3 */}
+          <div className="footer-nav-col">
+            <span className="footer-col-label">INSTITUTE</span>
+            <ul className="footer-link-list">
+              <li><Link to="/contact">Admissions</Link></li>
+              <li><Link to="/contact">Faculty Directory</Link></li>
+              <li><Link to="/contact">Academic Support</Link></li>
+              <li><Link to="/contact">Research Seminars</Link></li>
             </ul>
           </div>
         </div>
 
-        <div className="footer-bottom">
-          <p>© 2026 EduTR. All rights reserved.</p>
-          <div className="footer-bottom-links">
-            <Link to="/contact">Privacy Policy</Link>
-            <Link to="/contact">Terms of Service</Link>
-            <Link to="/contact">Security Audit</Link>
+        {/* Footer Bottom Bar */}
+        <div className="footer-bottom-flex">
+          <span className="footer-copy">© 2026 Academic Institute. All rights reserved.</span>
+          <div className="footer-legal-links flex-align gap-4">
+            <span className="legal-link">Privacy Policy</span>
+            <span className="legal-link">Terms of Study</span>
+            <span className="legal-link">Accessibility</span>
           </div>
         </div>
       </div>

@@ -1,173 +1,166 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  Sparkles, 
-  BookOpen, 
-  ArrowRight, 
-  Users, 
-  Award, 
-  Brain, 
-  CheckCircle2, 
-  Star, 
-  Clock, 
-  Lightbulb, 
-  Megaphone,
-  GraduationCap
-} from 'lucide-react';
-import { MOCK_COURSES } from '../data/edutrData';
+import { Link, useNavigate } from 'react-router-dom';
 
-interface HomePageProps {
-  onSelectCourse: (courseId: string) => void;
-}
+export const HomePage: React.FC = () => {
+  const navigate = useNavigate();
 
-export const HomePage: React.FC<HomePageProps> = ({ onSelectCourse }) => {
-  const featuredCourses = MOCK_COURSES.slice(0, 3);
-  const topTeachers = [
-    { name: "Dr. Sarah Jenkins", title: "Professor of Artificial Intelligence", dept: "Computer Science", avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200", rating: 4.9 },
-    { name: "Prof. David Vance", title: "Chair of Software Engineering", dept: "Software Systems", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200", rating: 4.8 },
-    { name: "Dr. Amina Vance", title: "Director of Tech Ethics Institute", dept: "Ethics & Governance", avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200", rating: 4.95 }
+  const announcements = [
+    { id: '01', title: 'Autumn applications are now open', date: '12 September 2026' },
+    { id: '02', title: 'New research seminar series announced', date: '24 September 2026' },
+    { id: '03', title: 'Faculty lecture programme published', date: '03 October 2026' },
+  ];
+
+  const featuredCourses = [
+    {
+      id: 'arc-118',
+      category: 'ARCHITECTURE & DESIGN',
+      title: 'Spatial Thinking & Environmental Architecture',
+      desc: 'A study of space, structure, and the relationship between people and their built environments.',
+      instructor: 'Dr. Leila Haddad',
+      duration: '12 weeks',
+      level: 'Advanced',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'edu-204',
+      category: 'PEDAGOGICAL DESIGN',
+      title: 'Learning Design & Pedagogical Frameworks',
+      desc: 'Exploring cognitive load theory, instructional architecture, and systemic educational models.',
+      instructor: 'Dr. Sarah Jenkins',
+      duration: '10 weeks',
+      level: 'Intermediate',
+      image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'com-210',
+      category: 'ACADEMIC SYNTHESIS',
+      title: 'Academic Writing & Research Synthesis',
+      desc: 'Synthesizing empirical sources into structured literature matrices and peer-reviewed papers.',
+      instructor: 'Dr. Marcus Brody',
+      duration: '8 weeks',
+      level: 'Foundation',
+      image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1000'
+    },
+    {
+      id: 'cs-312',
+      category: 'APPLIED AI & COMPUTING',
+      title: 'Applied AI & Neural Learning Systems',
+      desc: 'Rigorous analysis of deep learning architectures, tensor backpropagation, and cognitive modeling.',
+      instructor: 'Prof. David Vance',
+      duration: '14 weeks',
+      level: 'Advanced',
+      image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1000'
+    }
+  ];
+
+  const faculty = [
+    {
+      name: 'Dr. Leila Haddad',
+      discipline: 'ARCHITECTURE & SPATIAL DESIGN',
+      role: 'Professor of Spatial Studies',
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Dr. Marcus Chen',
+      discipline: 'COMPUTER SCIENCE & AI',
+      role: 'Chair of Neural Computing',
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Prof. Elena Rossi',
+      discipline: 'ACADEMIC WRITING & RESEARCH',
+      role: 'Director of Humanities Lab',
+      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600'
+    }
   ];
 
   return (
-    <div className="page-wrapper public-theme-blue">
-      {/* Hero / Banner */}
-      <section className="hero-section">
-        <div className="hero-container">
-          <div className="hero-content">
-            <span className="hero-badge">
-              <Sparkles size={14} /> AI-POWERED ACADEMIC OPERATING SYSTEM
-            </span>
-            <h1 className="hero-headline">
-              Learn Smarter.<br />
-              <span className="text-gradient-blue">Perform Better.</span>
-            </h1>
-            <p className="hero-subtext">
-              EduTR unifies student learning management, real-time attendance, rubric-backed assessment studios, and predictive AI intelligence into one seamless platform.
-            </p>
-            <div className="hero-cta-buttons">
-              <Link to="/courses" className="btn-hero-primary">
-                Explore Courses <ArrowRight size={18} />
-              </Link>
-              <Link to="/login" className="btn-hero-secondary">
-                Get Started
-              </Link>
-            </div>
-          </div>
-
-          <div className="hero-visual-card">
-            <div className="hero-card-header flex-between">
-              <div className="flex-align gap-2">
-                <Brain size={20} className="text-indigo" />
-                <span className="font-bold text-sm">Live AI Intelligence Core</span>
-              </div>
-              <span className="status-pill status-green">Operational</span>
-            </div>
-            
-            <div className="hero-card-stats">
-              <div className="h-stat-box">
-                <span className="h-stat-label">Active Students</span>
-                <strong className="h-stat-val">2,846</strong>
-              </div>
-              <div className="h-stat-box">
-                <span className="h-stat-label">Average Pass Rate</span>
-                <strong className="h-stat-val text-emerald">94.8%</strong>
-              </div>
-              <div className="h-stat-box">
-                <span className="h-stat-label">AI Risk Alerts</span>
-                <strong className="h-stat-val text-amber">3 Active</strong>
-              </div>
-            </div>
-
-            <div className="hero-ai-snippet">
-              <div className="flex-align gap-2 text-xs font-bold text-indigo" style={{ marginBottom: '0.3rem' }}>
-                <Lightbulb size={14} /> AI STUDY TIP OF THE DAY
-              </div>
-              <p className="text-xs text-muted">
-                Review Transformer Self-Attention matrix math today before Wednesday’s PyTorch lab exam to lock memory retention.
+    <div className="academia-page">
+      {/* 1. LUXURY HERO SECTION */}
+      <section className="academia-hero-section">
+        <div className="academia-container">
+          <div className="hero-split-grid">
+            <div className="hero-text-col">
+              <span className="micro-eyebrow">ACADEMIC EXCELLENCE</span>
+              <h1 className="hero-serif-title">
+                Learn deeply.<br />
+                Think independently.<br />
+                Create what matters.
+              </h1>
+              <p className="hero-lead-desc">
+                A carefully curated academic environment for ambitious learners, researchers, and future thinkers.
               </p>
+              <div className="hero-cta-wrapper">
+                <Link to="/courses" className="btn-editorial-primary">
+                  EXPLORE COURSES <span className="arrow-sym">→</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="hero-image-col">
+              <div className="hero-image-frame">
+                <img 
+                  src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&q=80&w=1400" 
+                  alt="Academic Library Architecture"
+                  className="editorial-img"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Announcements Banner Section */}
-      <section className="section-padding bg-surface border-y">
-        <div className="page-container">
+      {/* 2. ANNOUNCEMENTS SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
           <div className="section-header-flex">
-            <div>
-              <span className="section-eyebrow flex-align gap-1 text-orange">
-                <Megaphone size={16} /> Campus Bulletins
-              </span>
-              <h2 className="section-title">Live Academic Announcements</h2>
-            </div>
+            <span className="micro-eyebrow">INSTITUTIONAL ANNOUNCEMENTS</span>
           </div>
 
-          <div className="grid-3">
-            <div className="announcement-card-pub">
-              <span className="tag-blue">Registration</span>
-              <h3 className="ann-title">Fall 2026 Course Add/Drop Period Open</h3>
-              <p className="ann-desc">Students can adjust course schedules and electives until August 30 via the portal.</p>
-              <span className="ann-date">Posted 2 hours ago</span>
-            </div>
-            <div className="announcement-card-pub">
-              <span className="tag-orange">Exams</span>
-              <h3 className="ann-title">Midterm Assessment Window Schedule</h3>
-              <p className="ann-desc">Midterm exam timetables and lab venue assignments are now available under Exams & Grades.</p>
-              <span className="ann-date">Posted Yesterday</span>
-            </div>
-            <div className="announcement-card-pub">
-              <span className="tag-green">AI Research</span>
-              <h3 className="ann-title">Honors AI Research Fellowship Applications</h3>
-              <p className="ann-desc">Senior computer science students with GPA &gt; 3.75 are invited to apply for lab stipends.</p>
-              <span className="ann-date">Posted 3 days ago</span>
-            </div>
+          <div className="announcements-editorial-list">
+            {announcements.map((item) => (
+              <div key={item.id} className="announcement-row flex-between">
+                <div className="flex-align gap-4">
+                  <span className="ann-num">{item.id}</span>
+                  <h3 className="ann-title">{item.title}</h3>
+                </div>
+                <div className="flex-align gap-4">
+                  <span className="ann-date">{item.date}</span>
+                  <span className="arrow-hover">→</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Courses Section */}
-      <section className="section-padding">
-        <div className="page-container">
-          <div className="section-header-flex">
+      {/* 3. FEATURED COURSES SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <div className="section-header-flex flex-between">
             <div>
-              <span className="section-eyebrow text-blue">Curriculum Showcase</span>
-              <h2 className="section-title">Featured Academic Courses</h2>
+              <span className="micro-eyebrow">CURRICULUM DISCIPLINE</span>
+              <h2 className="section-serif-heading">Featured Courses</h2>
             </div>
-            <Link to="/courses" className="btn-ghost-blue">
-              View All Courses ({MOCK_COURSES.length}) <ArrowRight size={16} />
+            <Link to="/courses" className="btn-link-editorial">
+              ALL COURSES →
             </Link>
           </div>
 
-          <div className="courses-grid-3">
+          <div className="featured-courses-grid">
             {featuredCourses.map((course) => (
-              <div key={course.id} className="public-course-card">
-                <div className="course-card-img-wrapper">
-                  <img src={course.image} alt={course.name} className="course-card-img" />
-                  <span className="course-badge-price">{course.price}</span>
+              <div key={course.id} className="course-editorial-card" onClick={() => navigate(`/courses/${course.id}`)}>
+                <div className="course-img-box">
+                  <img src={course.image} alt={course.title} className="editorial-img" />
                 </div>
-                <div className="course-card-body">
-                  <div className="flex-between text-xs" style={{ marginBottom: '0.4rem' }}>
-                    <span className="tag-blue">{course.category}</span>
-                    <span className="flex-align gap-1 font-bold text-amber">
-                      <Star size={14} fill="#f59e0b" /> {course.rating} ({course.reviewsCount})
-                    </span>
-                  </div>
-                  <h3 className="public-course-title">{course.name}</h3>
-                  <p className="public-course-desc">{course.description}</p>
+                <div className="course-content-box">
+                  <span className="micro-category-label">{course.category}</span>
+                  <h3 className="course-serif-title">{course.title}</h3>
+                  <p className="course-body-desc">{course.desc}</p>
                   
-                  <div className="instructor-row-sm">
-                    <img src={course.instructorAvatar} alt={course.instructor} className="avatar-xs" />
-                    <div>
-                      <h5 className="inst-name">{course.instructor}</h5>
-                      <span className="inst-title">{course.instructorTitle}</span>
-                    </div>
-                  </div>
-
-                  <div className="card-footer-flex">
-                    <span className="meta-text"><Users size={12} /> {course.studentsCount} Students</span>
-                    <Link to={`/courses/${course.id}`} className="btn-card-view">
-                      View Course
-                    </Link>
+                  <div className="course-meta-bottom flex-between">
+                    <span className="meta-text">{course.instructor} · {course.duration}</span>
+                    <span className="btn-view-link">VIEW COURSE →</span>
                   </div>
                 </div>
               </div>
@@ -176,88 +169,79 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectCourse }) => {
         </div>
       </section>
 
-      {/* Top Teachers Section */}
-      <section className="section-padding bg-surface border-y">
-        <div className="page-container">
-          <div className="section-header-center">
-            <span className="section-eyebrow text-blue">Faculty Excellence</span>
-            <h2 className="section-title">Meet Our Top Professors & Researchers</h2>
-            <p className="section-subtitle">World-class educators driving academic rigor, student mentorship, and groundbreaking research.</p>
+      {/* 4. TOP TEACHERS / FACULTY SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <div className="section-header-flex">
+            <span className="micro-eyebrow">ACADEMIC LEADERSHIP</span>
+            <h2 className="section-serif-heading">Faculty Directory</h2>
           </div>
 
-          <div className="grid-3" style={{ marginTop: '2rem' }}>
-            {topTeachers.map((teacher, idx) => (
-              <div key={idx} className="teacher-card">
-                <img src={teacher.avatar} alt={teacher.name} className="teacher-avatar-lg" />
-                <h3 className="teacher-name">{teacher.name}</h3>
-                <p className="teacher-title">{teacher.title}</p>
-                <span className="dept-tag">{teacher.dept}</span>
-                <div className="teacher-rating-box">
-                  <Star size={14} fill="#f59e0b" className="text-amber" />
-                  <span><strong>{teacher.rating}</strong> / 5.0 Instructor Rating</span>
+          <div className="faculty-grid-3">
+            {faculty.map((member, idx) => (
+              <div key={idx} className="faculty-card">
+                <div className="faculty-portrait-frame">
+                  <img src={member.image} alt={member.name} className="editorial-img grayscale-img" />
                 </div>
+                <span className="micro-category-label" style={{ marginTop: '1rem', display: 'block' }}>
+                  {member.discipline}
+                </span>
+                <h3 className="faculty-serif-name">{member.name}</h3>
+                <p className="faculty-role-text">{member.role}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* AI Study Tips & Popular Courses Section */}
-      <section className="section-padding">
-        <div className="page-container">
-          <div className="grid-2-1">
-            <div className="card-panel-pub">
-              <h2 className="section-title" style={{ marginBottom: '1rem' }}>Popular Courses Enrolling Now</h2>
-              <div className="pop-course-list">
-                {MOCK_COURSES.map((c) => (
-                  <div key={c.id} className="pop-course-item">
-                    <img src={c.image} alt={c.name} className="pop-img" />
-                    <div style={{ flex: 1 }}>
-                      <span className="tag-blue">{c.code}</span>
-                      <h4 className="pop-title">{c.name}</h4>
-                      <span className="text-xs text-muted">{c.instructor} • {c.duration}</span>
-                    </div>
-                    <Link to={`/courses/${c.id}`} className="btn-secondary-sm">
-                      Inspect
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
+      {/* 5. AI STUDY TIPS SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <div className="ai-tips-container">
+            <span className="micro-eyebrow">INTELLIGENT METHODOLOGY</span>
+            <h2 className="section-serif-heading" style={{ maxWidth: '600px' }}>
+              A more intelligent way to study.
+            </h2>
+            <p className="ai-lead-text">
+              Use AI thoughtfully to organize research, understand complex ideas, improve writing structure, and build more effective academic habits.
+            </p>
 
-            {/* AI Tip Showcase Card */}
-            <div className="ai-tip-card-pub">
-              <div className="ai-tip-icon">
-                <Brain size={36} className="text-indigo" />
+            <div className="ai-grid-4">
+              <div className="ai-tip-card">
+                <span className="ai-step-num">01</span>
+                <h4 className="ai-tip-title">RESEARCH</h4>
+                <p className="ai-tip-desc">Clarify complex academic material into structured synthesis matrices.</p>
               </div>
-              <h3 className="ai-tip-headline">AI-Powered Personalized Study Engine</h3>
-              <p className="ai-tip-desc">
-                Our embedded neural algorithms continuously analyze your attendance patterns, lab assignment submissions, and quiz metrics to predict knowledge gaps before exams.
-              </p>
-              <ul className="ai-benefit-list">
-                <li><CheckCircle2 size={16} className="text-emerald" /> Automated Weak Topic Identification</li>
-                <li><CheckCircle2 size={16} className="text-emerald" /> Spaced Repetition Revision Schedules</li>
-                <li><CheckCircle2 size={16} className="text-emerald" /> Instant Assignment Feedback Loops</li>
-              </ul>
-              <Link to="/courses" className="btn-hero-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                Explore Curriculum <ArrowRight size={16} />
-              </Link>
+              <div className="ai-tip-card">
+                <span className="ai-step-num">02</span>
+                <h4 className="ai-tip-title">WRITING</h4>
+                <p className="ai-tip-desc">Improve argument structure, clarity, and citation alignment.</p>
+              </div>
+              <div className="ai-tip-card">
+                <span className="ai-step-num">03</span>
+                <h4 className="ai-tip-title">REVISION</h4>
+                <p className="ai-tip-desc">Create focused revision plans based on empirical knowledge gaps.</p>
+              </div>
+              <div className="ai-tip-card">
+                <span className="ai-step-num">04</span>
+                <h4 className="ai-tip-title">PLANNING</h4>
+                <p className="ai-tip-desc">Build personalized study routines around key assessment windows.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bottom CTA Banner */}
-      <section className="cta-banner-section">
-        <div className="page-container text-center">
-          <h2 className="cta-title">Ready to Elevate Your Academic Journey?</h2>
-          <p className="cta-subtitle">Join thousands of students and faculty leveraging EduTR for intelligent learning and administrative excellence.</p>
-          <div className="flex-center gap-4">
-            <Link to="/courses" className="btn-hero-primary">
-              Explore Courses Now
-            </Link>
-            <Link to="/contact" className="btn-hero-secondary">
-              Contact Support
+      {/* 6. HOME CTA SECTION */}
+      <section className="home-cta-banner">
+        <div className="academia-container text-center">
+          <h2 className="cta-serif-title">A deeper way to learn.</h2>
+          <p className="cta-subtitle">
+            Explore courses designed for curious minds and ambitious futures.
+          </p>
+          <div style={{ marginTop: '2rem' }}>
+            <Link to="/courses" className="btn-editorial-primary-light">
+              EXPLORE COURSES <span className="arrow-sym">→</span>
             </Link>
           </div>
         </div>

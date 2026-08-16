@@ -1,162 +1,223 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, HelpCircle, MessageSquare, CheckCircle2 } from 'lucide-react';
 
-interface ContactPageProps {
-  onTriggerToast: (type: 'success' | 'info', title: string, msg: string) => void;
-}
+export const ContactPage: React.FC = () => {
+  const [formName, setFormName] = useState('');
+  const [formEmail, setFormEmail] = useState('');
+  const [formSubject, setFormSubject] = useState('');
+  const [formCourse, setFormCourse] = useState('General Enquiry');
+  const [formMessage, setFormMessage] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-export const ContactPage: React.FC<ContactPageProps> = ({ onTriggerToast }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('Course Enrollment Question');
-  const [message, setMessage] = useState('');
+  const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(0);
+
+  const faqs = [
+    {
+      q: 'How do I enroll in a course?',
+      a: 'Select your course from the directory and click "ENROLL NOW". Admissions will review your background and issue course access credentials.'
+    },
+    {
+      q: 'Do courses offer accredited certificates?',
+      a: 'Yes. Upon successful completion of all coursework and research projects, you receive an institutional certificate of academic completion.'
+    },
+    {
+      q: 'Can I change my course schedule?',
+      a: 'Schedule changes can be requested within the first two weeks of the term via the academic portal workspace.'
+    },
+    {
+      q: 'How do I contact my instructor?',
+      a: 'Enrolled students can communicate directly with faculty members through scheduled office hours or via the workspace portal.'
+    },
+    {
+      q: 'What is the refund policy?',
+      a: 'Full tuition refunds are available up to 7 calendar days prior to the term start date.'
+    }
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !message) return;
+    if (!formName || !formEmail) return;
 
-    onTriggerToast('success', 'Message Sent!', 'Thank you for reaching out. Academic Support will respond within 24 hours.');
-    setName('');
-    setEmail('');
-    setMessage('');
+    setFormSubmitted(true);
+    setTimeout(() => {
+      setFormName('');
+      setFormEmail('');
+      setFormMessage('');
+      setFormSubmitted(false);
+    }, 3000);
   };
 
-  const faqs = [
-    { q: "How do I enroll in AI lab courses?", a: "Navigate to the Courses page, select your desired course, and click 'Enroll Now'. You will be redirected to complete enrollment." },
-    { q: "Can teachers mark attendance online?", a: "Yes, faculty can navigate to the Attendance page, select their active class roster, and toggle student status between Present, Absent, or Late." },
-    { q: "How are AI Risk alerts calculated?", a: "The AI Engine aggregates weekly attendance logs, assignment submission timestamps, and gradebook trends to identify at-risk students." }
-  ];
-
   return (
-    <div className="page-wrapper public-theme-blue">
-      {/* Banner */}
-      <div className="page-header-banner">
-        <div className="page-container text-center">
-          <span className="section-eyebrow text-blue">ACADEMIC SUPPORT & INQUIRIES</span>
-          <h1 className="page-title-lg">Contact EduTR Hub</h1>
-          <p className="page-subtitle">Have questions about admissions, course prerequisites, or platform support? We are here to assist you.</p>
+    <div className="academia-page">
+      {/* 1. CONTACT HERO */}
+      <section className="courses-hero-header">
+        <div className="academia-container">
+          <span className="micro-eyebrow">INQUIRIES & ADMISSIONS</span>
+          <h1 className="hero-serif-title">We would be pleased to hear from you.</h1>
+          <p className="hero-lead-desc" style={{ maxWidth: '700px' }}>
+            Whether you are considering a course, need academic support, or simply want to learn more about the institute, our team is here to help.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="page-container section-padding">
-        <div className="grid-2">
-          {/* Contact Info Cards */}
-          <div>
-            <h2 className="section-title" style={{ marginBottom: '1.2rem' }}>Get in Touch</h2>
-            <p className="text-muted" style={{ marginBottom: '2rem', lineHeight: '1.6' }}>
-              Our dedicated academic services desk operates Monday through Friday from 8:00 AM to 6:00 PM EST.
-            </p>
+      {/* 2. CONTACT INFO & CONTACT FORM GRID */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <div className="grid-2-1" style={{ gap: '4rem' }}>
+            {/* Left: Contact Info */}
+            <div>
+              <span className="micro-eyebrow">CONTACT INFORMATION</span>
+              <h2 className="section-serif-heading">Get in Touch</h2>
 
-            <div className="contact-info-list">
-              <div className="contact-info-card">
-                <div className="contact-icon-box"><Mail size={20} className="text-blue" /></div>
-                <div>
-                  <h4 className="info-title">Email Support</h4>
-                  <p className="info-detail">support@edutr.edu</p>
-                  <span className="text-xs text-muted">Response time: &lt; 2 hours</span>
+              <div className="contact-info-stack" style={{ marginTop: '2rem' }}>
+                <div className="contact-info-block">
+                  <span className="micro-eyebrow">GENERAL ENQUIRIES</span>
+                  <p className="contact-val-text font-serif">hello@academicportal.com</p>
                 </div>
-              </div>
 
-              <div className="contact-info-card">
-                <div className="contact-icon-box"><Phone size={20} className="text-blue" /></div>
-                <div>
-                  <h4 className="info-title">Phone & Hotlines</h4>
-                  <p className="info-detail">+1 (800) 555-EDUTR (33887)</p>
-                  <span className="text-xs text-muted">Mon - Fri, 8:00 AM - 6:00 PM EST</span>
+                <div className="contact-info-block">
+                  <span className="micro-eyebrow">ADMISSIONS OFFICE</span>
+                  <p className="contact-val-text font-serif">admissions@academicportal.com</p>
                 </div>
-              </div>
 
-              <div className="contact-info-card">
-                <div className="contact-icon-box"><MapPin size={20} className="text-blue" /></div>
-                <div>
-                  <h4 className="info-title">Campus Headquarters</h4>
-                  <p className="info-detail">Academic Affairs Building, Suite 400</p>
-                  <span className="text-xs text-muted">100 University Plaza, Boston, MA 02115</span>
+                <div className="contact-info-block">
+                  <span className="micro-eyebrow">PHONE</span>
+                  <p className="contact-val-text font-serif">+44 (0)20 7946 0912</p>
+                </div>
+
+                <div className="contact-info-block">
+                  <span className="micro-eyebrow">CAMPUS LOCATION</span>
+                  <p className="contact-val-text font-serif">
+                    12 University Avenue<br />
+                    Bloomsbury, London WC1E 6BT
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Contact Form Card */}
-          <div className="contact-form-card">
-            <h3 className="section-title-sm" style={{ marginBottom: '1rem' }}>Send Us a Message</h3>
-            <form onSubmit={handleSubmit} className="form-grid-gap">
-              <div className="form-group">
-                <label className="form-label">Full Name *</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  placeholder="e.g. John Doe" 
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required 
-                />
-              </div>
+            {/* Right: Contact Form */}
+            <div>
+              <span className="micro-eyebrow">TRANSMIT INQUIRY</span>
+              <h2 className="section-serif-heading">Contact Form</h2>
 
-              <div className="form-group">
-                <label className="form-label">Email Address *</label>
-                <input 
-                  type="email" 
-                  className="form-control" 
-                  placeholder="john.doe@university.edu" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required 
-                />
-              </div>
+              {formSubmitted ? (
+                <div className="editorial-success-box" style={{ marginTop: '2rem' }}>
+                  <h3 className="sub-serif-title text-emerald">Message Transmitted</h3>
+                  <p className="body-editorial-p">Thank you. An admissions counselor will respond to your inquiry within 24 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="contact-form-editorial" style={{ marginTop: '2rem' }}>
+                  <div className="form-group-editorial">
+                    <label className="editorial-label">Name *</label>
+                    <input 
+                      type="text" 
+                      className="editorial-input-thin" 
+                      value={formName} 
+                      onChange={(e) => setFormName(e.target.value)} 
+                      required 
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Subject</label>
-                <select 
-                  className="form-control"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                >
-                  <option value="Course Enrollment Question">Course Enrollment Question</option>
-                  <option value="AI Engine Technical Support">AI Engine Technical Support</option>
-                  <option value="Faculty & Grading Portal Inquiry">Faculty & Grading Portal Inquiry</option>
-                  <option value="General Campus Question">General Campus Question</option>
-                </select>
-              </div>
+                  <div className="form-group-editorial">
+                    <label className="editorial-label">Email Address *</label>
+                    <input 
+                      type="email" 
+                      className="editorial-input-thin" 
+                      value={formEmail} 
+                      onChange={(e) => setFormEmail(e.target.value)} 
+                      required 
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Your Message *</label>
-                <textarea 
-                  className="form-control" 
-                  rows={4} 
-                  placeholder="Describe your inquiry..." 
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required 
-                />
-              </div>
+                  <div className="form-group-editorial">
+                    <label className="editorial-label">Subject</label>
+                    <input 
+                      type="text" 
+                      className="editorial-input-thin" 
+                      value={formSubject} 
+                      onChange={(e) => setFormSubject(e.target.value)} 
+                    />
+                  </div>
 
-              <button type="submit" className="btn-hero-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                <Send size={16} /> Send Message
-              </button>
-            </form>
-          </div>
-        </div>
+                  <div className="form-group-editorial">
+                    <label className="editorial-label">Course of Interest</label>
+                    <select 
+                      className="editorial-select-thin"
+                      value={formCourse} 
+                      onChange={(e) => setFormCourse(e.target.value)}
+                    >
+                      <option value="General Enquiry">General Enquiry</option>
+                      <option value="ARC 118">ARC 118 — Spatial Thinking</option>
+                      <option value="EDU 204">EDU 204 — Learning Design</option>
+                      <option value="COM 210">COM 210 — Academic Writing</option>
+                      <option value="CS 312">CS 312 — Applied AI</option>
+                    </select>
+                  </div>
 
-        {/* FAQ Section */}
-        <div className="faq-section" style={{ marginTop: '4rem' }}>
-          <div className="section-header-center">
-            <span className="section-eyebrow text-blue"><HelpCircle size={16} /> FREQUENTLY ASKED QUESTIONS</span>
-            <h2 className="section-title">Common Academic Portal Inquiries</h2>
-          </div>
+                  <div className="form-group-editorial">
+                    <label className="editorial-label">Message *</label>
+                    <textarea 
+                      className="editorial-textarea-thin" 
+                      rows={4} 
+                      value={formMessage} 
+                      onChange={(e) => setFormMessage(e.target.value)} 
+                      required 
+                    />
+                  </div>
 
-          <div className="faq-grid" style={{ marginTop: '2rem' }}>
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="faq-card">
-                <h4 className="faq-q flex-align gap-2">
-                  <CheckCircle2 size={18} className="text-blue" /> {faq.q}
-                </h4>
-                <p className="faq-a">{faq.a}</p>
-              </div>
-            ))}
+                  <button type="submit" className="btn-editorial-primary w-full" style={{ marginTop: '1rem' }}>
+                    SEND MESSAGE →
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 3. FAQ ACCORDION SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container">
+          <span className="micro-eyebrow">COMMON QUESTIONS</span>
+          <h2 className="section-serif-heading">Frequently Asked Questions</h2>
+
+          <div className="syllabus-accordion-stack" style={{ marginTop: '2rem' }}>
+            {faqs.map((faq, idx) => {
+              const isOpen = activeFaqIndex === idx;
+              return (
+                <div key={idx} className="accordion-item-editorial">
+                  <div 
+                    className="accordion-header-flex flex-between cursor-pointer"
+                    onClick={() => setActiveFaqIndex(isOpen ? null : idx)}
+                  >
+                    <h3 className="ann-title">{faq.q}</h3>
+                    <span className="accordion-toggle-sym">{isOpen ? '−' : '+'}</span>
+                  </div>
+
+                  {isOpen && (
+                    <div className="accordion-content-body">
+                      <p className="body-editorial-p">{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. SUPPORT CTA SECTION */}
+      <section className="section-space border-top-thin">
+        <div className="academia-container text-center">
+          <span className="micro-eyebrow">ACADEMIC SUPPORT</span>
+          <h2 className="section-serif-heading">Need Support?</h2>
+          <p className="hero-lead-desc" style={{ maxWidth: '600px', margin: '0.8rem auto 1.5rem' }}>
+            Our academic support team is available to help with course access, enrollment, scheduling, and technical questions.
+          </p>
+          <button className="btn-editorial-primary" onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })}>
+            CONTACT SUPPORT →
+          </button>
+        </div>
+      </section>
     </div>
   );
 };
