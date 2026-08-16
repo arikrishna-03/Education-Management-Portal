@@ -14,7 +14,6 @@ export const CourseDetailsPage: React.FC = () => {
 
   const [activeSyllabusIndex, setActiveSyllabusIndex] = useState<number | null>(0);
   const [showEnrollSuccessModal, setShowEnrollSuccessModal] = useState(false);
-  const [showAuthRequiredModal, setShowAuthRequiredModal] = useState(false);
 
   // Syllabus accordion data
   const syllabusModules = [
@@ -46,38 +45,30 @@ export const CourseDetailsPage: React.FC = () => {
   ];
 
   const handleEnrollClick = () => {
-    // 1. Unauthenticated Check: If user is not logged in, show Auth Required Popup
+    // 1. Unauthenticated Check: If user is not logged in, redirect directly to Student Login page
     if (!currentUser) {
-      setShowAuthRequiredModal(true);
+      navigate('/login?role=student');
       return;
     }
 
-    // 2. Already Enrolled: Redirect to Course Details
-    if (enrolledAlready) {
-      navigate(`/courses/${currentCourseId}`);
-      return;
+    // 2. Authenticated Enrollment
+    if (!enrolledAlready) {
+      enrollInCourse({
+        courseId: currentCourseId,
+        title: currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture',
+        category: currentCourseId === 'edu-204' ? 'Pedagogical Design' : 'Architecture & Design',
+        instructor: currentCourseId === 'edu-204' ? 'Dr. Sarah Jenkins' : 'Dr. Leila Haddad',
+        progress: 68,
+        grade: 'A-',
+        attendancePct: 92,
+        assignmentsCompleted: 8,
+        totalAssignments: 10,
+        image: currentCourseId === 'edu-204' ? 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000' : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000'
+      });
     }
 
-    // 3. Authenticated Enrollment
-    enrollInCourse({
-      courseId: currentCourseId,
-      title: currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture',
-      category: currentCourseId === 'edu-204' ? 'Pedagogical Design' : 'Architecture & Design',
-      instructor: currentCourseId === 'edu-204' ? 'Dr. Sarah Jenkins' : 'Dr. Leila Haddad',
-      progress: 68,
-      grade: 'A-',
-      attendancePct: 92,
-      assignmentsCompleted: 8,
-      totalAssignments: 10,
-      image: currentCourseId === 'edu-204' ? 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000' : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000'
-    });
-
-    setShowEnrollSuccessModal(true);
-  };
-
-  const handleGoToCourse = () => {
-    setShowEnrollSuccessModal(false);
-    navigate(`/courses/${currentCourseId}`);
+    // Redirect to Student Academic Flow page /student/courses/:courseId
+    navigate(`/student/courses/${currentCourseId}`);
   };
 
   return (
@@ -133,12 +124,13 @@ export const CourseDetailsPage: React.FC = () => {
                   <strong className="font-serif text-gold" style={{ fontSize: '1.8rem' }}>$1,200</strong>
                 </div>
 
+                {/* ALWAYS DISPLAY "ENROLL NOW →" ONLY */}
                 <button 
                   onClick={handleEnrollClick}
                   className="btn-editorial-primary w-full"
                   style={{ padding: '0.95rem', marginBottom: '1rem' }}
                 >
-                  {enrolledAlready ? 'GO TO MY COURSE →' : 'ENROLL NOW →'}
+                  ENROLL NOW →
                 </button>
 
                 <div className="tuition-spec-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -176,27 +168,46 @@ export const CourseDetailsPage: React.FC = () => {
       <section className="section-space border-top-thin">
         <div className="academia-container">
           <span className="micro-eyebrow">CURRICULUM ARCHITECTURE</span>
-          <h2 className="section-serif-heading" style={{ color: '#F5EFE3', marginBottom: '1.5rem' }}>Course Syllabus</h2>
+          <h2 className="section-serif-heading" style={{ color: '#F5EFE3', marginBottom: '1.8rem' }}>Course Syllabus</h2>
 
-          <div className="syllabus-accordion-stack">
+          <div className="syllabus-accordion-stack" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {syllabusModules.map((mod, idx) => {
               const isOpen = activeSyllabusIndex === idx;
               return (
-                <div key={mod.num} className="flow-card-panel" style={{ marginBottom: '1rem', background: '#0D1B2D', border: '1px solid #1B3045' }}>
+                <div 
+                  key={mod.num} 
+                  className="flow-card-panel" 
+                  style={{ 
+                    background: '#0D1B2D', 
+                    border: '1px solid #1B3045', 
+                    borderRadius: '12px', 
+                    padding: '1.4rem 1.8rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
                   <div 
-                    className="accordion-header-flex flex-between cursor-pointer"
+                    className="flex-between cursor-pointer"
                     onClick={() => setActiveSyllabusIndex(isOpen ? null : idx)}
                   >
                     <div className="flex-align gap-4">
-                      <span className="mod-num-badge">{mod.num}</span>
-                      <h3 className="sub-serif-title" style={{ color: '#F5EFE3', fontSize: '1.3rem' }}>{mod.title}</h3>
+                      <span className="mod-num-badge font-serif text-gold" style={{ fontSize: '1.2rem', fontWeight: 700, minWidth: '32px' }}>
+                        {mod.num}
+                      </span>
+                      <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.15rem', fontWeight: 600, color: '#F5EFE3', margin: 0 }}>
+                        {mod.title}
+                      </h3>
                     </div>
-                    <span className="text-gold font-bold" style={{ fontSize: '1.4rem' }}>{isOpen ? '−' : '+'}</span>
+
+                    <div className="flex-center" style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#0B192A', border: '1px solid #1B3045', color: '#F1BA4B', fontWeight: 700, fontSize: '1.2rem' }}>
+                      {isOpen ? '−' : '+'}
+                    </div>
                   </div>
 
                   {isOpen && (
-                    <div className="accordion-content-body" style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #1B3045' }}>
-                      <p style={{ color: '#C7C4BC', fontSize: '0.95rem' }}>{mod.details}</p>
+                    <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #1B3045', paddingLeft: '2.5rem' }}>
+                      <p style={{ color: '#C7C4BC', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                        {mod.details}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -210,90 +221,28 @@ export const CourseDetailsPage: React.FC = () => {
       <section className="section-space border-top-thin">
         <div className="academia-container">
           <div className="grid-2">
-            <div className="flow-card-panel">
+            <div className="flow-card-panel" style={{ background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px', padding: '2rem' }}>
               <span className="micro-eyebrow">FACULTY INSTRUCTOR</span>
               <h3 className="sub-serif-title" style={{ color: '#F5EFE3', fontSize: '1.6rem', margin: '0.4rem 0' }}>
                 {currentCourseId === 'edu-204' ? 'Dr. Sarah Jenkins' : 'Dr. Leila Haddad'}
               </h3>
-              <p style={{ color: '#C7C4BC', fontSize: '0.9rem' }}>
+              <p style={{ color: '#C7C4BC', fontSize: '0.9rem', lineHeight: '1.6' }}>
                 Senior Fellow in Spatial Geometry and Environmental Pedagogy with 15+ years of research at international architectural laboratories.
               </p>
             </div>
 
-            <div className="flow-card-panel">
+            <div className="flow-card-panel" style={{ background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px', padding: '2rem' }}>
               <span className="micro-eyebrow">ACADEMIC SCHEDULE</span>
               <h3 className="sub-serif-title" style={{ color: '#F5EFE3', fontSize: '1.6rem', margin: '0.4rem 0' }}>
                 Tuesdays & Thursdays · 14:00 - 16:30 GMT
               </h3>
-              <p style={{ color: '#C7C4BC', fontSize: '0.9rem' }}>
+              <p style={{ color: '#C7C4BC', fontSize: '0.9rem', lineHeight: '1.6' }}>
                 Live research studio seminars, bi-weekly peer reviews, and interactive AI evaluation workshops.
               </p>
             </div>
           </div>
         </div>
       </section>
-
-      {/* 1. AUTHENTICATION REQUIRED MODAL FOR UNLOGGED VISITORS */}
-      {showAuthRequiredModal && (
-        <div className="modal-overlay" onClick={() => setShowAuthRequiredModal(false)}>
-          <div className="modal-box text-center" onClick={(e) => e.stopPropagation()} style={{ padding: '3rem 2.5rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '16px' }}>
-            <div className="flex-center" style={{ margin: '0 auto 1.2rem', width: '56px', height: '56px', borderRadius: '50%', background: '#472D00' }}>
-              <Lock size={28} className="text-gold" />
-            </div>
-
-            <span className="micro-eyebrow text-gold">AUTHENTICATION REQUIRED</span>
-            <h2 className="sub-serif-title" style={{ fontSize: '2rem', margin: '0.4rem 0', color: '#F5EFE3' }}>
-              Please Login or Register
-            </h2>
-            <p style={{ marginBottom: '2rem', color: '#C7C4BC', lineHeight: '1.6' }}>
-              You must be signed into your student account to enroll in courses and access the academic flow workspace.
-            </p>
-
-            <div className="flex-column gap-3">
-              <button 
-                className="btn-editorial-primary w-full" 
-                style={{ padding: '0.95rem' }} 
-                onClick={() => { setShowAuthRequiredModal(false); navigate('/login?role=student'); }}
-              >
-                LOGIN TO YOUR ACCOUNT →
-              </button>
-              <button 
-                className="btn-editorial-primary-light w-full" 
-                style={{ padding: '0.95rem', justifyContent: 'center' }} 
-                onClick={() => { setShowAuthRequiredModal(false); navigate('/register/student'); }}
-              >
-                CREATE STUDENT ACCOUNT →
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 2. ENROLLMENT SUCCESS CONFIRMATION MODAL FOR AUTHENTICATED USERS */}
-      {showEnrollSuccessModal && (
-        <div className="modal-overlay" onClick={() => setShowEnrollSuccessModal(false)}>
-          <div className="modal-box text-center" onClick={(e) => e.stopPropagation()} style={{ padding: '3rem 2rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '16px' }}>
-            <div className="flex-center" style={{ margin: '0 auto 1.2rem', width: '54px', height: '54px', borderRadius: '50%', background: '#472D00' }}>
-              <CheckCircle2 size={32} className="text-gold" />
-            </div>
-
-            <span className="micro-eyebrow text-gold">ENROLLMENT CONFIRMED</span>
-            <h2 className="sub-serif-title" style={{ fontSize: '2.2rem', margin: '0.4rem 0', color: '#F5EFE3' }}>
-              You are now enrolled in
-            </h2>
-            <h3 className="hero-serif-title" style={{ fontSize: '1.8rem', color: '#F1BA4B', margin: '0.2rem 0 1rem' }}>
-              {currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture'}
-            </h3>
-            <p style={{ marginBottom: '2rem', color: '#C7C4BC' }}>
-              Your academic workspace is ready. Access course info, syllabus modules, schedule, and assignments.
-            </p>
-
-            <button className="btn-editorial-primary w-full" style={{ padding: '1rem' }} onClick={handleGoToCourse}>
-              GO TO MY COURSE →
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

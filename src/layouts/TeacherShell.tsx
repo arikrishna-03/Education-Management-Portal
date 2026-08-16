@@ -37,8 +37,8 @@ export const TeacherShell: React.FC<TeacherShellProps> = ({ children }) => {
     { label: 'Assignments', path: '/teacher/assignments', icon: FileCheck },
     { label: 'Attendance', path: '/teacher/attendance', icon: Calendar },
     { label: 'Exams & Grades', path: '/teacher/exams', icon: Award },
-    { label: 'Reports', path: '/teacher/reports', icon: BarChart3 },
     { label: 'AI Insights', path: '/teacher/insights', icon: Brain },
+    { label: 'Performance Reports & Summary', path: '/teacher/reports', icon: BarChart3 },
     { label: 'Profile', path: '/teacher/profile', icon: User }
   ];
 
@@ -87,11 +87,11 @@ export const TeacherShell: React.FC<TeacherShellProps> = ({ children }) => {
         <div style={{ borderTop: '1px solid #1B3045', paddingTop: '1rem' }}>
           <div className="flex-align gap-3" style={{ padding: '0.4rem 0.6rem', marginBottom: '0.6rem' }}>
             <div className="hub-logo-badge flex-center" style={{ width: '34px', height: '34px', fontSize: '0.85rem', background: '#00382E', color: '#F1BA4B' }}>
-              {user.avatar || 'LH'}
+              {user.avatar || 'FAC'}
             </div>
             <div className="flex-column flex-1">
               <strong className="text-xs text-primary" style={{ color: '#F5EFE3' }}>{user.name}</strong>
-              <span className="text-xs text-muted" style={{ fontSize: '0.7rem' }}>{user.department || 'FACULTY'}</span>
+              <span className="text-xs text-muted" style={{ fontSize: '0.7rem' }}>FACULTY INSTRUCTOR</span>
             </div>
           </div>
 
@@ -101,42 +101,38 @@ export const TeacherShell: React.FC<TeacherShellProps> = ({ children }) => {
             style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
           >
             <LogOut size={16} />
-            <span>Sign Out</span>
+            <span>LOG OUT</span>
           </button>
         </div>
       </aside>
 
-      {/* DEDICATED TEACHER MAIN CONTENT AREA */}
+      {/* MAIN CONTENT WRAPPER */}
       <div className="hub-main-wrapper">
-        {/* TEACHER TOP HEADER */}
+        {/* Teacher Workspace Header */}
         <header className="hub-top-header flex-between">
-          <div>
-            <span className="micro-eyebrow" style={{ color: '#F1BA4B', letterSpacing: '0.12em' }}>
-              FACULTY DESK · INSTITUTIONAL MANAGEMENT
-            </span>
-            <h2 className="font-serif" style={{ fontSize: '1.8rem', color: '#F5EFE3', margin: 0 }}>
-              Good morning, {user.name.split(' ')[0]}.
-            </h2>
+          <div className="flex-align gap-3">
+            <span className="micro-eyebrow" style={{ margin: 0 }}>FACULTY DESK</span>
+            <span className="text-muted text-xs">/</span>
+            <span className="text-xs text-primary font-mono" style={{ color: '#F5EFE3' }}>{path}</span>
           </div>
 
           <div className="flex-align gap-4">
-            <div className="flex-align gap-2 search-field-minimal" style={{ width: '220px' }}>
-              <Search size={16} style={{ color: '#8D918F' }} />
-              <input 
-                type="text" 
-                placeholder="Search students, submissions..." 
-                style={{ background: '#0B192A', border: '1px solid #1B3045', padding: '0.4rem 0.8rem', fontSize: '0.85rem', color: '#F5EFE3', borderRadius: '6px', width: '100%' }}
-              />
+            <div className="flex-align gap-2">
+              <span className="text-xs text-muted">Role:</span>
+              <strong className="text-xs text-gold">Senior Fellow Instructor</strong>
             </div>
 
-            <button className="flex-center" style={{ width: '38px', height: '38px', borderRadius: '8px', background: '#0D1B2D', border: '1px solid #1B3045', color: '#F1BA4B' }}>
-              <Bell size={18} />
-            </button>
+            <div className="flex-align gap-2 cursor-pointer" onClick={() => navigate('/teacher/profile')}>
+              <div className="hub-logo-badge flex-center" style={{ width: '28px', height: '28px', fontSize: '0.75rem', background: '#00382E', color: '#F1BA4B' }}>
+                {user.avatar || 'FAC'}
+              </div>
+              <span className="text-xs font-bold" style={{ color: '#F5EFE3' }}>{user.name}</span>
+            </div>
           </div>
         </header>
 
-        {/* FULL PAGE PAGE CONTAINER */}
-        <main className="flex-1" style={{ padding: '2rem' }}>
+        {/* PAGE CONTENT */}
+        <main style={{ padding: '2rem', flex: 1 }}>
           {children}
         </main>
       </div>

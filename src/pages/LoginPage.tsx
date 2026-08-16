@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { setStoredUser, DEFAULT_STUDENT_USER, DEFAULT_TEACHER_USER, UserRole } from '../data/authState';
-import { GraduationCap, School, ArrowLeft } from 'lucide-react';
+import { GraduationCap, School, ShieldCheck, ArrowLeft } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -64,26 +64,26 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="academia-page">
       <section className="section-space">
-        <div className="academia-container" style={{ maxWidth: '960px' }}>
+        <div className="academia-container" style={{ maxWidth: '1100px' }}>
           
           {/* HEADER */}
           <div className="text-center" style={{ marginBottom: '3rem' }}>
             <span className="micro-eyebrow">AUTHENTICATION & ACCESS</span>
             <h1 className="hero-serif-title" style={{ fontSize: '3.2rem', margin: '0.4rem 0' }}>
-              USER LOGIN / REGISTER
+              WELCOME TO ACADEMIC HUB
             </h1>
             <p className="hero-lead-desc" style={{ margin: '0 auto', maxWidth: '500px' }}>
-              Access your academic workspace.
+              Choose your access role to enter your workspace.
             </p>
           </div>
 
-          {/* STEP 1: ROLE SELECTION (STUDENT VS TEACHER SIDE-BY-SIDE) */}
+          {/* STEP 1: 3 DISTINCT ROLE SELECTION CARDS (STUDENT, TEACHER, ADMIN) */}
           {!selectedRole ? (
-            <div className="grid-2">
-              {/* STUDENT ROLE CARD */}
+            <div className="grid-3">
+              {/* 1. STUDENT ROLE CARD */}
               <div 
                 className="flow-card-panel text-center cursor-pointer hover-lift"
-                style={{ padding: '3.5rem 2rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px' }}
+                style={{ padding: '3rem 1.8rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px' }}
                 onClick={() => setSelectedRole('student')}
               >
                 <div className="flex-center" style={{ margin: '0 auto 1.5rem', width: '56px', height: '56px', borderRadius: '50%', background: '#472D00' }}>
@@ -91,9 +91,9 @@ export const LoginPage: React.FC = () => {
                 </div>
 
                 <span className="micro-eyebrow">STUDENT ROLE</span>
-                <h3 className="sub-serif-title" style={{ fontSize: '2rem', margin: '0.4rem 0', color: '#F5EFE3' }}>STUDENT</h3>
-                <p style={{ marginBottom: '2rem', fontSize: '0.95rem', color: '#C7C4BC' }}>
-                  Access courses, assignments, attendance, exams, grades, and AI academic recommendations.
+                <h3 className="sub-serif-title" style={{ fontSize: '1.8rem', margin: '0.4rem 0', color: '#F5EFE3' }}>STUDENT</h3>
+                <p style={{ marginBottom: '2rem', fontSize: '0.9rem', color: '#C7C4BC', minHeight: '50px' }}>
+                  Access courses, assignments, attendance, exams, grades, and AI recommendations.
                 </p>
 
                 <button className="btn-editorial-primary w-full">
@@ -101,10 +101,10 @@ export const LoginPage: React.FC = () => {
                 </button>
               </div>
 
-              {/* TEACHER ROLE CARD */}
+              {/* 2. TEACHER ROLE CARD */}
               <div 
                 className="flow-card-panel text-center cursor-pointer hover-lift"
-                style={{ padding: '3.5rem 2rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px' }}
+                style={{ padding: '3rem 1.8rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '14px' }}
                 onClick={() => setSelectedRole('teacher')}
               >
                 <div className="flex-center" style={{ margin: '0 auto 1.5rem', width: '56px', height: '56px', borderRadius: '50%', background: '#00382E' }}>
@@ -112,21 +112,41 @@ export const LoginPage: React.FC = () => {
                 </div>
 
                 <span className="micro-eyebrow">FACULTY ROLE</span>
-                <h3 className="sub-serif-title" style={{ fontSize: '2rem', margin: '0.4rem 0', color: '#F5EFE3' }}>TEACHER</h3>
-                <p style={{ marginBottom: '2rem', fontSize: '0.95rem', color: '#C7C4BC' }}>
-                  Manage courses, evaluate assignments, review class performance, track students, and post reports.
+                <h3 className="sub-serif-title" style={{ fontSize: '1.8rem', margin: '0.4rem 0', color: '#F5EFE3' }}>TEACHER</h3>
+                <p style={{ marginBottom: '2rem', fontSize: '0.9rem', color: '#C7C4BC', minHeight: '50px' }}>
+                  Manage courses, evaluate assignments, review class performance, and track students.
                 </p>
 
                 <button className="btn-editorial-primary w-full">
                   CONTINUE AS TEACHER →
                 </button>
               </div>
+
+              {/* 3. ADMIN ROLE CARD (PURPLE SECURITY IDENTITY MATCHING REFERENCE IMAGE) */}
+              <div 
+                className="flow-card-panel text-center cursor-pointer hover-lift admin-card-purple"
+                style={{ padding: '3rem 1.8rem' }}
+                onClick={() => navigate('/admin/login')}
+              >
+                <div className="admin-badge-icon">
+                  <ShieldCheck size={28} />
+                </div>
+
+                <span className="micro-eyebrow" style={{ color: '#A78BFA' }}>SYSTEM SECURITY</span>
+                <h3 className="sub-serif-title" style={{ fontSize: '1.8rem', margin: '0.4rem 0', color: '#7C3AED' }}>ADMIN LOGIN</h3>
+                <p style={{ marginBottom: '2rem', fontSize: '0.9rem', color: '#C7C4BC', minHeight: '50px' }}>
+                  Secure access for system administrators to manage institutional parameters and oversight.
+                </p>
+
+                <button className="btn-admin-purple w-full">
+                  ADMIN LOGIN →
+                </button>
+              </div>
             </div>
           ) : (
-            /* STEP 2: DEDICATED AUTH FORM WITH SEGMENTED TABS AND PILL BACK BUTTON */
+            /* STEP 2: DEDICATED STUDENT OR TEACHER FORM */
             <div className="flow-card-panel" style={{ maxWidth: '580px', margin: '0 auto', padding: '3rem 2.5rem', background: '#0D1B2D', border: '1px solid #1B3045', borderRadius: '16px' }}>
               
-              {/* POLISHED UI/UX HEADER */}
               <div className="flex-between flex-wrap gap-3" style={{ marginBottom: '2rem', paddingBottom: '1.2rem', borderBottom: '1px solid #1B3045' }}>
                 <button 
                   className="auth-role-pill-btn"
@@ -135,7 +155,6 @@ export const LoginPage: React.FC = () => {
                   <ArrowLeft size={14} /> Change Role ({selectedRole.toUpperCase()})
                 </button>
 
-                {/* SEGMENTED TAB SWITCHER */}
                 <div className="auth-segmented-tabs">
                   <button 
                     type="button"

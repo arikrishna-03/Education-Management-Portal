@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export type UserRole = 'student' | 'teacher' | null;
+export type UserRole = 'student' | 'teacher' | 'admin' | null;
 
 export interface AuthUser {
   id: string;
@@ -13,9 +13,10 @@ export interface AuthUser {
   department?: string;
   expertise?: string;
   program?: string;
+  adminId?: string;
 }
 
-const AUTH_STORAGE_KEY = 'academia_auth_user_v2';
+const AUTH_STORAGE_KEY = 'academia_auth_user_v3';
 
 export const DEFAULT_STUDENT_USER: AuthUser = {
   id: 'stu-9821',
@@ -38,6 +39,15 @@ export const DEFAULT_TEACHER_USER: AuthUser = {
   avatar: 'LH'
 };
 
+export const DEFAULT_ADMIN_USER: AuthUser = {
+  id: 'adm-0001',
+  name: 'System Administrator',
+  email: 'admin@academic.edu',
+  role: 'admin',
+  adminId: 'ADM-SEC-001',
+  avatar: 'AD'
+};
+
 export function getStoredUser(): AuthUser | null {
   try {
     const data = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -47,7 +57,6 @@ export function getStoredUser(): AuthUser | null {
   } catch (e) {
     console.error('Error loading auth user', e);
   }
-  // Return null if unauthenticated so login/register checks trigger accurately
   return null;
 }
 

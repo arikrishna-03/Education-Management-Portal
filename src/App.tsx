@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+// Scroll Helper
+import { ScrollToTop } from './components/ScrollToTop';
+
 // Layout Components
 import { PublicNavbar } from './components/PublicNavbar';
 import { Footer } from './components/Footer';
 import { StudentShell } from './layouts/StudentShell';
 import { TeacherShell } from './layouts/TeacherShell';
+import { AdminShell } from './layouts/AdminShell';
 import { AppShell } from './app_components/AppShell';
 import { ToastContainer } from './components/Toast';
 
@@ -19,16 +23,23 @@ import { ContactPage } from './pages/ContactPage';
 import { LoginPage } from './pages/LoginPage';
 import { StudentRegisterPage } from './pages/StudentRegisterPage';
 import { TeacherRegisterPage } from './pages/TeacherRegisterPage';
+import { AdminLoginPage } from './pages/AdminLoginPage';
 
 // Authenticated Student Role Pages (Rendered inside StudentShell, NO PUBLIC NAVBAR/FOOTER)
 import { StudentDashboardPage } from './pages/StudentDashboardPage';
 import { StudentCoursesPage } from './pages/StudentCoursesPage';
 import { AcademicFlowPage } from './pages/AcademicFlowPage';
+import { AcademicFlowAttendancePage } from './pages/flow/AcademicFlowAttendancePage';
+import { AcademicFlowAssignmentsPage } from './pages/flow/AcademicFlowAssignmentsPage';
+import { AcademicFlowExamsPage } from './pages/flow/AcademicFlowExamsPage';
+import { AcademicFlowAiPage } from './pages/flow/AcademicFlowAiPage';
+import { AcademicFlowReportsPage } from './pages/flow/AcademicFlowReportsPage';
 import { StudentAssignmentsPage } from './pages/student/StudentAssignmentsPage';
 import { StudentAttendancePage } from './pages/student/StudentAttendancePage';
 import { StudentGradesPage } from './pages/student/StudentGradesPage';
 import { StudentProgressPage } from './pages/student/StudentProgressPage';
 import { StudentAiPage } from './pages/student/StudentAiPage';
+import { StudentPerformanceReportPage } from './pages/student/StudentPerformanceReportPage';
 import { StudentProfilePage } from './pages/student/StudentProfilePage';
 
 // Authenticated Teacher Role Pages (Rendered inside TeacherShell, NO PUBLIC NAVBAR/FOOTER)
@@ -41,6 +52,19 @@ import { TeacherExamsPage } from './pages/teacher/TeacherExamsPage';
 import { TeacherReportsPage } from './pages/teacher/TeacherReportsPage';
 import { TeacherInsightsPage } from './pages/teacher/TeacherInsightsPage';
 import { TeacherProfilePage } from './pages/teacher/TeacherProfilePage';
+
+// Authenticated Admin Role Pages (Rendered inside AdminShell with Purple Security System)
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AdminStudentsPage } from './pages/admin/AdminStudentsPage';
+import { AdminTeachersPage } from './pages/admin/AdminTeachersPage';
+import { AdminCoursesPage } from './pages/admin/AdminCoursesPage';
+import { AdminAssignmentsPage } from './pages/admin/AdminAssignmentsPage';
+import { AdminExamsPage } from './pages/admin/AdminExamsPage';
+import { AdminReportsPage } from './pages/admin/AdminReportsPage';
+import { AdminInsightsPage } from './pages/admin/AdminInsightsPage';
+import { AdminPerformanceReportsPage } from './pages/admin/AdminPerformanceReportsPage';
+import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
+import { AdminProfilePage } from './pages/admin/AdminProfilePage';
 
 // Academic Hub /app Workspace Pages
 import { AppOverviewPage } from './app_pages/AppOverviewPage';
@@ -97,20 +121,28 @@ function AppContent() {
         <Route path="/courses/:courseId" element={<PublicLayout><CourseDetailsPage /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
 
-        {/* AUTHENTICATION ROUTES (PublicLayout) */}
+        {/* AUTHENTICATION ROUTES */}
         <Route path="/login" element={<PublicLayout><LoginPage /></PublicLayout>} />
         <Route path="/register/student" element={<PublicLayout><StudentRegisterPage /></PublicLayout>} />
         <Route path="/register/teacher" element={<PublicLayout><TeacherRegisterPage /></PublicLayout>} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
 
         {/* DEDICATED AUTHENTICATED STUDENT ROUTES (StudentShell: NO PUBLIC NAVBAR, NO PUBLIC FOOTER) */}
         <Route path="/student/dashboard" element={<StudentShell><StudentDashboardPage /></StudentShell>} />
         <Route path="/student/courses" element={<StudentShell><StudentCoursesPage /></StudentShell>} />
         <Route path="/student/courses/:courseId" element={<StudentShell><AcademicFlowPage /></StudentShell>} />
+        <Route path="/student/courses/:courseId/attendance" element={<StudentShell><AcademicFlowAttendancePage /></StudentShell>} />
+        <Route path="/student/courses/:courseId/assignments" element={<StudentShell><AcademicFlowAssignmentsPage /></StudentShell>} />
+        <Route path="/student/courses/:courseId/exams" element={<StudentShell><AcademicFlowExamsPage /></StudentShell>} />
+        <Route path="/student/courses/:courseId/ai-engine" element={<StudentShell><AcademicFlowAiPage /></StudentShell>} />
+        <Route path="/student/courses/:courseId/reports" element={<StudentShell><AcademicFlowReportsPage /></StudentShell>} />
+
         <Route path="/student/assignments" element={<StudentShell><StudentAssignmentsPage /></StudentShell>} />
         <Route path="/student/attendance" element={<StudentShell><StudentAttendancePage /></StudentShell>} />
         <Route path="/student/grades" element={<StudentShell><StudentGradesPage /></StudentShell>} />
         <Route path="/student/progress" element={<StudentShell><StudentProgressPage /></StudentShell>} />
         <Route path="/student/ai-recommendations" element={<StudentShell><StudentAiPage /></StudentShell>} />
+        <Route path="/student/performance-report" element={<StudentShell><StudentPerformanceReportPage /></StudentShell>} />
         <Route path="/student/profile" element={<StudentShell><StudentProfilePage /></StudentShell>} />
 
         {/* Legacy aliases redirecting to dedicated student routes */}
@@ -127,6 +159,19 @@ function AppContent() {
         <Route path="/teacher/reports" element={<TeacherShell><TeacherReportsPage /></TeacherShell>} />
         <Route path="/teacher/insights" element={<TeacherShell><TeacherInsightsPage /></TeacherShell>} />
         <Route path="/teacher/profile" element={<TeacherShell><TeacherProfilePage /></TeacherShell>} />
+
+        {/* DEDICATED AUTHENTICATED ADMIN ROUTES (AdminShell: NO PUBLIC NAVBAR, NO PUBLIC FOOTER) */}
+        <Route path="/admin/dashboard" element={<AdminShell><AdminDashboardPage /></AdminShell>} />
+        <Route path="/admin/students" element={<AdminShell><AdminStudentsPage /></AdminShell>} />
+        <Route path="/admin/teachers" element={<AdminShell><AdminTeachersPage /></AdminShell>} />
+        <Route path="/admin/courses" element={<AdminShell><AdminCoursesPage /></AdminShell>} />
+        <Route path="/admin/assignments" element={<AdminShell><AdminAssignmentsPage /></AdminShell>} />
+        <Route path="/admin/exams" element={<AdminShell><AdminExamsPage /></AdminShell>} />
+        <Route path="/admin/reports" element={<AdminShell><AdminReportsPage /></AdminShell>} />
+        <Route path="/admin/ai-insights" element={<AdminShell><AdminInsightsPage /></AdminShell>} />
+        <Route path="/admin/performance-reports" element={<AdminShell><AdminPerformanceReportsPage /></AdminShell>} />
+        <Route path="/admin/settings" element={<AdminShell><AdminSettingsPage /></AdminShell>} />
+        <Route path="/admin/profile" element={<AdminShell><AdminProfilePage /></AdminShell>} />
 
         {/* ACADEMIC HUB /app WORKSPACE ROUTES */}
         <Route path="/app" element={<AppShell><AppOverviewPage /></AppShell>} />
@@ -150,6 +195,7 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AppContent />
     </Router>
   );

@@ -1,12 +1,23 @@
 import React from 'react';
-import { Sparkles, Brain, CheckCircle2, Target, BookOpen, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft, Brain, Sparkles, Target, FileText, CheckCircle2 } from 'lucide-react';
 
-export const StudentAiPage: React.FC = () => {
+export const AcademicFlowAiPage: React.FC = () => {
+  const { courseId } = useParams();
+  const currentId = courseId || 'arc-118';
+
   return (
     <div className="academia-page">
-      {/* HEADER */}
+      {/* 1. BREADCRUMB */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <Link to={`/student/courses/${currentId}`} className="btn-link-editorial text-xs flex-align gap-2" style={{ color: '#F1BA4B' }}>
+          <ArrowLeft size={14} /> Back to Academic Flow
+        </Link>
+      </div>
+
+      {/* 2. HEADER */}
       <div style={{ marginBottom: '2.5rem' }}>
-        <span className="micro-eyebrow">INTELLIGENT RECOMMENDATIONS</span>
+        <span className="micro-eyebrow">ACADEMIC FLOW · MODULE 4</span>
         <h1 className="hero-serif-title" style={{ fontSize: '2.8rem', margin: '0.2rem 0', color: '#F5EFE3' }}>
           AI Recommendations Engine
         </h1>
@@ -15,7 +26,7 @@ export const StudentAiPage: React.FC = () => {
         </p>
       </div>
 
-      {/* SIGNATURE GOLD ACTION ITEM BANNER */}
+      {/* 3. SIGNATURE GOLD BANNER */}
       <div 
         className="signature-gold-panel" 
         style={{ 
@@ -42,10 +53,10 @@ export const StudentAiPage: React.FC = () => {
         </p>
       </div>
 
-      {/* 2-COLUMN CARDS GRID */}
+      {/* 4. 2-COLUMN CARDS GRID */}
       <div className="grid-2" style={{ gap: '2rem', marginBottom: '2.5rem' }}>
         
-        {/* CARD 1: RECOMMENDED STUDY PLAN */}
+        {/* RECOMMENDED STUDY PLAN */}
         <div 
           className="flow-card-panel" 
           style={{ 
@@ -88,7 +99,7 @@ export const StudentAiPage: React.FC = () => {
           </div>
         </div>
 
-        {/* CARD 2: AI SYNTAX & WRITING EVALUATION */}
+        {/* AI SYNTAX & WRITING EVALUATION */}
         <div 
           className="flow-card-panel" 
           style={{ 

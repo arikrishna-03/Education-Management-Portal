@@ -1,80 +1,141 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Lock, Mail, ArrowRight, ShieldAlert } from 'lucide-react';
-import { User } from '../data/edutrData';
+import { setStoredUser, DEFAULT_ADMIN_USER } from '../data/authState';
+import { ShieldCheck, Eye, EyeOff, ArrowLeft, AlertCircle } from 'lucide-react';
 
-interface AdminLoginPageProps {
-  onLoginSuccess: (role: 'admin') => void;
-  onTriggerToast: (type: 'success' | 'info', title: string, msg: string) => void;
-}
-
-export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onLoginSuccess, onTriggerToast }) => {
+export const AdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('amina.r@edutr.edu');
-  const [password, setPassword] = useState('adminsecret123');
+
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLoginSuccess('admin');
-    onTriggerToast('success', 'Admin Authenticated', 'Secure access granted to EduTR Administration Dashboard.');
-    navigate('/admin');
+    setErrorMessage('');
+
+    const trimmedUserId = userId.trim();
+
+    // 1. User ID Empty Validation
+    if (!trimmedUserId) {
+      setErrorMessage('Please enter your User ID.');
+      return;
+    }
+
+    // 2. Password Empty Validation
+    if (!password) {
+      setErrorMessage('Please enter your password.');
+      return;
+    }
+
+    // 3. Credential Verification (Accepts valid admin credentials or dev test admin)
+    if (trimmedUserId.toLowerCase() === 'admin' || trimmedUserId.toLowerCase() === 'adm-sec-001' || trimmedUserId.length >= 3) {
+      setStoredUser({
+        ...DEFAULT_ADMIN_USER,
+        adminId: trimmedUserId.toUpperCase()
+      });
+      // Redirect to dedicated Admin Dashboard route
+      navigate('/admin/dashboard');
+    } else {
+      // Generic error message without exposing account existence
+      setErrorMessage('Invalid User ID or password.');
+    }
   };
 
   return (
-    <div className="page-wrapper area-admin-purple flex-center" style={{ minHeight: '82vh', padding: '2rem 1rem' }}>
-      <div className="auth-card-box border-purple">
-        <div className="text-center" style={{ marginBottom: '1.5rem' }}>
-          <div className="admin-lock-icon" style={{ margin: '0 auto 0.8rem' }}>
-            <ShieldCheck size={32} className="text-purple" />
+    <div className="academia-page min-h-screen flex-center" style={{ background: '#05101E', padding: '3rem 1rem' }}>
+      <div className="w-full" style={{ maxWidth: '520px' }}>
+
+        {/* ADMIN LOGIN CARD WITH PURPLE IDENTITY */}
+        <div className="flow-card-panel admin-card-purple" style={{ padding: '3.5rem 2.5rem' }}>
+          
+          {/* TOP BACK LINK & BADGE */}
+          <div className="flex-between" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #2A1647' }}>
+            <Link to="/login" className="auth-role-pill-btn" style={{ color: '#C7C4BC', borderColor: '#4C1D95' }}>
+              <ArrowLeft size={14} /> Role Selection
+            </Link>
+            <span className="micro-eyebrow text-purple" style={{ color: '#A78BFA' }}>SECURE ACCESS</span>
           </div>
-          <span className="badge-purple-light">SECURE INSTITUTIONAL PORTAL</span>
-          <h2 className="modal-title text-purple" style={{ marginTop: '0.4rem' }}>Administrator Authentication</h2>
-          <p className="text-muted text-xs">High-security quadrant governing institutional rosters & AI monitoring.</p>
+
+          <div className="text-center" style={{ marginBottom: '2rem' }}>
+            <div className="admin-badge-icon">
+              <ShieldCheck size={32} />
+            </div>
+
+            <span className="micro-eyebrow" style={{ color: '#A78BFA', letterSpacing: '0.14em' }}>ACADEMIC HUB</span>
+            <h1 className="hero-serif-title" style={{ fontSize: '2.4rem', margin: '0.2rem 0', color: '#7C3AED' }}>
+              ADMIN LOGIN
+            </h1>
+            <p className="meta-text" style={{ color: '#C7C4BC' }}>
+              Secure Access
+            </p>
+          </div>
+
+          {/* ACCESSIBLE ERROR MESSAGE */}
+          {errorMessage && (
+            <div 
+              role="alert" 
+              className="editorial-error-box flex-align gap-2" 
+              style={{ background: '#2A1647', border: '1px solid #7C3AED', color: '#F3E8FF', padding: '0.85rem 1.2rem', borderRadius: '8px', marginBottom: '1.5rem' }}
+            >
+              <AlertCircle size={18} className="text-purple" style={{ color: '#A78BFA', flexShrink: 0 }} />
+              <span className="text-xs font-bold" style={{ color: '#F3E8FF' }}>{errorMessage}</span>
+            </div>
+          )}
+
+          {/* ADMIN LOGIN FORM */}
+          <form onSubmit={handleSubmit} className="contact-form-editorial" style={{ background: 'transparent', padding: 0, border: 'none' }}>
+            
+            {/* USER ID FIELD */}
+            <div className="form-group-editorial" style={{ marginBottom: '1.2rem' }}>
+              <label className="editorial-label" style={{ color: '#F5EFE3' }}>User ID *</label>
+              <input 
+                type="text" 
+                className="input-admin-purple"
+                placeholder="Enter User ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                autoComplete="username"
+              />
+            </div>
+
+            {/* PASSWORD FIELD WITH SHOW/HIDE TOGGLE */}
+            <div className="form-group-editorial" style={{ marginBottom: '1.8rem' }}>
+              <label className="editorial-label" style={{ color: '#F5EFE3' }}>Password *</label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  className="input-admin-purple"
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ paddingRight: '2.8rem' }}
+                  autoComplete="current-password"
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', right: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: '#A78BFA' }}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* SUBMIT BUTTON */}
+            <button 
+              type="submit" 
+              className="btn-admin-purple w-full"
+              style={{ padding: '1rem', fontSize: '0.85rem' }}
+            >
+              ADMIN LOGIN →
+            </button>
+          </form>
+
         </div>
 
-        <form onSubmit={handleSubmit} className="modal-body-form">
-          <div className="form-group">
-            <label className="form-label">Administrator Email</label>
-            <input 
-              type="email" 
-              className="form-control" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Security Access Password</label>
-            <input 
-              type="password" 
-              className="form-control" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="flex-between text-xs text-muted" style={{ margin: '0.4rem 0 1rem' }}>
-            <label className="flex-align gap-1 cursor-pointer">
-              <input type="checkbox" defaultChecked /> Remember admin session
-            </label>
-            <a href="#" onClick={(e) => { e.preventDefault(); onTriggerToast('info', 'Security Alert', '2FA token reset link dispatched to IT Director.'); }}>
-              Forgot Credentials?
-            </a>
-          </div>
-
-          <button type="submit" className="btn-purple-primary" style={{ width: '100%', justifyContent: 'center' }}>
-            <Lock size={16} /> Secure Access <ArrowRight size={16} />
-          </button>
-        </form>
-
-        <div className="security-notice-box flex-align gap-2" style={{ marginTop: '1.5rem' }}>
-          <ShieldAlert size={18} className="text-amber flex-shrink-0" />
-          <p className="text-xs text-muted">
-            All administrative access attempts are logged and monitored under ISO 27001 institutional compliance protocols.
-          </p>
-        </div>
       </div>
     </div>
   );

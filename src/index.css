@@ -1,6 +1,6 @@
 /* ==========================================================================
-   ACADEMIA — FINAL VISUAL COLOR SYSTEM & LUXURY UI/UX DESIGN
-   Deep Navy (#05101E) + Academic Gold (#F1BA4B) + Deep Green (#00382E) + Warm Cream (#F5EFE3)
+   ACADEMIA — FINAL VISUAL COLOR SYSTEM & ADMIN PURPLE SECURITY IDENTITY
+   Deep Navy (#05101E) + Academic Gold (#F1BA4B) + Admin Purple (#7C3AED)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -17,6 +17,13 @@
   --color-gold-700: #D9A947;
   --color-gold-800: #8A620E;
   --color-gold-900: #472D00; /* DARK GOLD / ACTIVE NAV */
+
+  /* ADMIN PURPLE SECURITY SYSTEM */
+  --color-admin-purple: #7C3AED;
+  --color-admin-light: #F3E8FF;
+  --color-admin-dark: #5B21B6;
+  --color-admin-bg: #2A1647;
+  --color-admin-border: #4C1D95;
 
   /* DARK NAVY SYSTEM */
   --color-navy-950: #05101E; /* MAIN APPLICATION & SITE BACKGROUND */
@@ -43,32 +50,10 @@
 
   --color-white: #FFFFFF;
 
-  /* Legacy Token Fallbacks Mapped to New Color System */
-  --ink-black: #F5EFE3;
-  --deep-charcoal: #0D1B2D;
-  --warm-ivory: #05101E;
-  --pure-white: #0D1B2D;
-  --muted-stone: #1B3045;
-  --warm-taupe: #8D918F;
-  --soft-gray: #C7C4BC;
-  --academic-green: #F1BA4B;
-  --muted-gold: #F1BA4B;
-
-  --color-brand-700: #F1BA4B;
-  --color-brand-600: #00382E;
-  --color-brand-100: #472D00;
-  --color-brand-50: #0B192A;
-
-  --color-surface: #0D1B2D;
-  --color-surface-subtle: #0B192A;
-  --color-border-strong: #26364A;
-
-  --bg-app: #05101E;
-  --hub-sidebar-width: 250px;
-
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --hub-sidebar-width: 250px;
 }
 
 * {
@@ -142,9 +127,9 @@ button {
   gap: 2rem;
 }
 
-.grid-2-1 {
+.grid-3-flow {
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
@@ -171,6 +156,7 @@ button {
 .font-serif { font-family: var(--font-serif); }
 .font-mono { font-family: var(--font-mono); }
 .text-gold { color: var(--color-gold-500); }
+.text-purple { color: var(--color-admin-purple); }
 .text-muted { color: var(--color-text-muted); }
 .text-emerald { color: var(--color-success); }
 .text-indigo { color: var(--color-info); }
@@ -287,10 +273,6 @@ button {
   color: var(--color-gold-400);
 }
 
-.btn-academia-text:hover .arrow-sym {
-  transform: translateX(4px);
-}
-
 .arrow-sym {
   display: inline-block;
   transition: transform 0.2s ease;
@@ -304,29 +286,9 @@ button {
   display: none;
 }
 
-.academia-mobile-drawer {
-  background: var(--color-navy-900);
-  border-bottom: 1px solid var(--color-border);
-  padding: 1.5rem 2rem;
-}
-
-.mobile-drawer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.mobile-drawer-links a {
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
 /* --------------------------------------------------------------------------
    ACADEMIC BUTTON SYSTEM & AUTH CONTROLS
    -------------------------------------------------------------------------- */
-/* Primary Brand Button (Gold #F1BA4B) */
 .btn-editorial-primary {
   background: var(--color-gold-500);
   color: var(--color-navy-950);
@@ -342,18 +304,35 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  transition: background 0.25s ease, transform 0.15s ease;
+  transition: background 0.25s ease;
 }
 
 .btn-editorial-primary:hover {
   background: var(--color-gold-600);
 }
 
-.btn-editorial-primary:hover .arrow-sym {
-  transform: translateX(4px);
+.btn-admin-purple {
+  background: var(--color-admin-purple);
+  color: var(--color-white);
+  border: none;
+  padding: 0.85rem 1.8rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: background 0.25s ease;
 }
 
-/* Dark Green Primary Button (#00382E) */
+.btn-admin-purple:hover {
+  background: var(--color-admin-dark);
+}
+
 .btn-dark-green {
   background: var(--color-green-900);
   color: var(--color-text-primary);
@@ -430,29 +409,51 @@ button {
   border-color: var(--color-gold-500);
 }
 
-/* Auth Segmented Tab Control System */
-.auth-segmented-tabs {
+/* --------------------------------------------------------------------------
+   AUTH FORM HEADER CONTROLS & SEGMENTED TABS (#0D1B2D + #0B192A)
+   -------------------------------------------------------------------------- */
+.auth-role-pill-btn {
   background: var(--color-navy-850);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 3px;
+  color: var(--color-gold-500);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.auth-role-pill-btn:hover {
+  border-color: var(--color-gold-500);
+  background: var(--color-navy-900);
+}
+
+.auth-segmented-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--color-navy-850);
+  border: 1px solid var(--color-border);
+  padding: 4px;
+  border-radius: 20px;
+  gap: 4px;
 }
 
 .auth-tab-btn {
   background: transparent;
-  color: var(--color-text-secondary);
   border: none;
-  padding: 0.45rem 1rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  padding: 0.45rem 1.1rem;
+  border-radius: 16px;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .auth-tab-btn:hover {
@@ -462,29 +463,149 @@ button {
 .auth-tab-btn.active {
   background: var(--color-gold-500);
   color: var(--color-navy-950);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-weight: 800;
 }
 
-/* Auth Role Pill Button */
-.auth-role-pill-btn {
-  background: var(--color-navy-850);
+/* --------------------------------------------------------------------------
+   CATEGORY FILTERS ROW & SEARCH CONTROLS (#0D1B2D Pill Buttons)
+   -------------------------------------------------------------------------- */
+.category-filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.filter-text-btn {
+  background: var(--color-navy-900);
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 600;
-  display: inline-flex;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-text-btn:hover {
+  background: var(--color-navy-850);
+  border-color: var(--color-gold-500);
+  color: var(--color-gold-500);
+}
+
+.filter-text-btn.active {
+  background: var(--color-gold-500);
+  border-color: var(--color-gold-500);
+  color: var(--color-navy-950);
+  font-weight: 800;
+}
+
+.search-field-minimal {
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
+}
+
+.search-input-underline {
+  width: 100%;
+  background: var(--color-navy-900) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem;
+  color: var(--color-text-primary) !important;
+  outline: none;
+}
+
+.search-input-underline:focus {
+  border-color: var(--color-gold-500) !important;
+}
+
+.btn-search-trigger {
+  background: var(--color-gold-500);
+  color: var(--color-navy-950);
+  border: none;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-search-trigger:hover {
+  background: var(--color-gold-600);
+}
+
+.btn-filter-trigger {
+  background: var(--color-navy-900);
+  border: 1px solid var(--color-border);
+  color: var(--color-gold-500);
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.auth-role-pill-btn:hover {
+.btn-filter-trigger:hover,
+.btn-filter-trigger.active {
   border-color: var(--color-gold-500);
-  color: var(--color-text-primary);
-  background: var(--color-gold-900);
+  background: var(--color-navy-850);
+}
+
+.filter-count-badge {
+  background: var(--color-gold-500);
+  color: var(--color-navy-950);
+  font-size: 0.7rem;
+  font-weight: 800;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.luxury-filter-panel {
+  background: var(--color-navy-900);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+}
+
+.filter-grid-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.filter-radio-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.filter-checkbox-item {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.filter-checkbox-item input {
+  accent-color: var(--color-gold-500);
 }
 
 /* Form Input Field Styling (#0B192A + #1B3045 border) */
@@ -508,6 +629,10 @@ textarea,
   border-radius: 8px;
   box-sizing: border-box;
   display: block;
+}
+
+input.input-admin-purple:focus {
+  border-color: var(--color-admin-purple) !important;
 }
 
 select,
@@ -596,55 +721,36 @@ textarea:focus,
 }
 
 /* --------------------------------------------------------------------------
-   SIGNATURE GOLD HERO / INTELLIGENCE PANEL (#F1BA4B)
+   ADMIN SECURITY CARD STYLING
    -------------------------------------------------------------------------- */
-.signature-gold-panel {
-  background: var(--color-gold-500);
-  color: var(--color-navy-950);
-  border-radius: 18px;
-  padding: 3rem;
-  position: relative;
-  overflow: hidden;
+.admin-card-purple {
+  background: var(--color-navy-900);
+  border: 1px solid var(--color-admin-purple);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
 }
 
-.signature-gold-panel .hero-title-dark {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: var(--color-navy-950);
-  line-height: 1.2;
-}
-
-.signature-gold-panel .hero-desc-dark {
-  font-size: 1rem;
-  color: var(--color-gold-900);
-  margin-top: 0.6rem;
-  max-width: 680px;
-  font-weight: 500;
-}
-
-.circle-decor-1 {
-  position: absolute;
-  right: -50px;
-  top: -50px;
-  width: 280px;
-  height: 280px;
+.admin-badge-icon {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(71, 45, 0, 0.08);
-  border: 1px solid rgba(71, 45, 0, 0.12);
-  pointer-events: none;
+  background: var(--color-admin-bg);
+  border: 1px solid var(--color-admin-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-admin-purple);
+  margin: 0 auto 1.2rem;
 }
 
-.circle-decor-2 {
-  position: absolute;
-  right: 60px;
-  bottom: -80px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: rgba(71, 45, 0, 0.06);
-  border: 1px solid rgba(71, 45, 0, 0.1);
-  pointer-events: none;
+.admin-sidebar-item.active {
+  background: var(--color-admin-bg);
+  color: var(--color-text-primary);
+  border-left: 3px solid var(--color-admin-purple);
+}
+
+.admin-sidebar-item.active svg {
+  color: var(--color-admin-purple);
 }
 
 /* --------------------------------------------------------------------------
@@ -758,370 +864,6 @@ textarea:focus,
 }
 
 /* --------------------------------------------------------------------------
-   AI STUDY TIPS & METHODOLOGY
-   -------------------------------------------------------------------------- */
-.ai-tips-container {
-  padding: 1rem 0;
-}
-
-.ai-lead-text {
-  font-size: 1.05rem;
-  color: var(--color-text-secondary);
-  max-width: 680px;
-  margin-top: 0.6rem;
-  line-height: 1.6;
-}
-
-.ai-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin-top: 3.5rem;
-}
-
-.ai-tip-card {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-gold-500);
-  border-radius: 12px;
-  padding: 1.8rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.ai-step-num {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  font-weight: 400;
-  color: var(--color-gold-500);
-  line-height: 1;
-  display: block;
-  margin-bottom: 0.6rem;
-}
-
-.ai-tip-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-gold-500);
-  margin-bottom: 0.4rem;
-}
-
-.ai-tip-desc {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-/* --------------------------------------------------------------------------
-   CONTACT PAGE & EDITORIAL FORM STYLES
-   -------------------------------------------------------------------------- */
-.contact-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-.contact-info-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 1.8rem;
-}
-
-.contact-info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.contact-val-text {
-  font-size: 1.4rem;
-  color: var(--color-text-primary);
-  line-height: 1.3;
-}
-
-.contact-form-editorial {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  padding: 2.5rem;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.form-group-editorial {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.editorial-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-gold-500);
-}
-
-.editorial-success-box {
-  background: var(--color-navy-850);
-  border: 1px solid var(--color-success);
-  padding: 2rem;
-  border-radius: 12px;
-}
-
-/* --------------------------------------------------------------------------
-   COURSES PAGE: SEARCH, FILTER & CATEGORIES
-   -------------------------------------------------------------------------- */
-.courses-hero-header {
-  padding: 4rem 0 2rem;
-}
-
-.search-field-minimal {
-  position: relative;
-  width: 100%;
-}
-
-.search-input-underline {
-  width: 100%;
-  border: 1px solid var(--color-border) !important;
-  background: var(--color-navy-900) !important;
-  padding: 0.8rem 6rem 0.8rem 1rem !important;
-  font-size: 1.1rem;
-  font-family: var(--font-serif);
-  outline: none;
-  color: var(--color-text-primary);
-  border-radius: 8px;
-}
-
-.search-input-underline:focus {
-  border-color: var(--color-gold-500) !important;
-}
-
-.btn-search-trigger {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: transparent;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-gold-500);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.btn-filter-trigger {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  padding: 0.8rem 1.4rem;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-text-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  transition: all 0.2s ease;
-}
-
-.btn-filter-trigger:hover,
-.btn-filter-trigger.active {
-  background: var(--color-gold-900);
-  color: var(--color-gold-500);
-  border-color: var(--color-gold-500);
-}
-
-.filter-count-badge {
-  background: var(--color-gold-500);
-  color: var(--color-navy-950);
-  font-size: 0.65rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 50%;
-  font-weight: 800;
-}
-
-.luxury-filter-panel {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  padding: 2rem;
-  border-radius: 14px;
-  margin-top: 1.5rem;
-}
-
-.category-filters-row {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-  flex-wrap: wrap;
-}
-
-.filter-text-btn {
-  border: none;
-  background: transparent;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  padding: 0.4rem 0;
-  position: relative;
-  transition: color 0.15s ease;
-}
-
-.filter-text-btn:hover,
-.filter-text-btn.active {
-  color: var(--color-gold-500);
-}
-
-.filter-text-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-gold-500);
-}
-
-/* --------------------------------------------------------------------------
-   HOME CTA BANNER
-   -------------------------------------------------------------------------- */
-.home-cta-banner {
-  background: var(--color-navy-900);
-  border-top: 1px solid var(--color-border);
-  color: var(--color-text-primary);
-  padding: 6rem 0;
-}
-
-.cta-serif-title {
-  font-family: var(--font-serif);
-  font-size: 3.5rem;
-  font-weight: 400;
-  margin-bottom: 0.8rem;
-  color: var(--color-text-primary);
-}
-
-.cta-subtitle {
-  font-size: 1.1rem;
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  line-height: 1.6;
-}
-
-/* --------------------------------------------------------------------------
-   STUDENT & TEACHER WORKSPACE CARDS
-   -------------------------------------------------------------------------- */
-.flow-card-panel {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  padding: 2rem;
-  border-radius: 14px;
-}
-
-.border-academic-green {
-  border-left: 4px solid var(--color-gold-500);
-}
-
-.badge-enrolled-status {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: var(--color-gold-500);
-  color: var(--color-navy-950);
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-}
-
-.kpi-serif-val {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1;
-  color: var(--color-text-primary);
-}
-
-.flow-kpi-stack {
-  background: var(--color-navy-900);
-  padding: 0.8rem 1.4rem;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-}
-
-.grid-3-flow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.8rem;
-}
-
-.attendance-tally-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-}
-
-.tally-box {
-  background: var(--color-navy-850);
-  padding: 0.8rem;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-}
-
-.mod-num-badge {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  color: var(--color-gold-500);
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-gold-900);
-}
-
-/* Modals */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(5, 16, 30, 0.85);
-  backdrop-filter: blur(6px);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
-
-.modal-box {
-  background: var(--color-navy-900);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-  max-width: 580px;
-  width: 100%;
-  color: var(--color-text-primary);
-}
-
-/* --------------------------------------------------------------------------
    GLOBAL FOOTER (#05101E / #0D1B2D)
    -------------------------------------------------------------------------- */
 .academia-footer {
@@ -1219,7 +961,7 @@ textarea:focus,
 .legal-link:hover { color: var(--color-gold-500); }
 
 /* --------------------------------------------------------------------------
-   ACADEMIC HUB /app WORKSPACE STYLES (MATCHING SCREENSHOT)
+   ACADEMIC HUB WORKSPACE STYLES
    -------------------------------------------------------------------------- */
 .hub-app-shell {
   display: flex;
@@ -1323,30 +1065,6 @@ textarea:focus,
   z-index: 100;
 }
 
-.hub-header-badge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  background: var(--color-gold-900);
-  color: var(--color-gold-500);
-}
-
-.hub-kpi-card {
-  background: var(--color-navy-900);
-  border-radius: 14px;
-  padding: 1.4rem;
-  border: 1px solid var(--color-border);
-}
-
-.kpi-card-number {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-text-primary);
-  margin: 0.3rem 0;
-}
-
 /* --------------------------------------------------------------------------
    RESPONSIVE BREAKPOINTS
    -------------------------------------------------------------------------- */
@@ -1356,22 +1074,24 @@ textarea:focus,
   .hero-split-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .featured-courses-grid { grid-template-columns: 1fr; gap: 2rem; }
   .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
-  .contact-grid-2 { grid-template-columns: 1fr; gap: 3rem; }
-  .ai-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 1.8rem; }
+  .grid-3 { grid-template-columns: 1fr; gap: 2rem; }
+  .grid-3-flow { grid-template-columns: 1fr; gap: 2rem; }
   .footer-top-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
   .hero-serif-title { font-size: 3rem; }
   .section-serif-heading { font-size: 2rem; }
   .academia-container { padding: 0 1.5rem; }
   .hub-sidebar { display: none; }
   .hub-main-wrapper { margin-left: 0; max-width: 100vw; }
+  .filter-grid-options { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
   .faculty-grid-3 { grid-template-columns: 1fr; }
-  .ai-grid-4 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr; }
   .footer-top-grid { grid-template-columns: 1fr; }
   .hero-serif-title { font-size: 2.2rem; }
   .section-serif-heading { font-size: 1.7rem; }
   .academia-container { padding: 0 1rem; }
   .footer-bottom-flex { flex-direction: column; gap: 1rem; text-align: center; }
+  .filter-grid-options { grid-template-columns: 1fr; }
 }

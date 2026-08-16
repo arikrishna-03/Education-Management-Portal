@@ -46,9 +46,9 @@ export const PublicNavbar: React.FC = () => {
           </Link>
         </nav>
 
-        {/* Action Button: USER LOGIN → */}
+        {/* Action Button: User Profile / Logout when logged in */}
         <div className="academia-nav-actions flex-align gap-3">
-          {currentUser ? (
+          {currentUser && (
             <div className="flex-align gap-3 desktop-only">
               <Link 
                 to={currentUser.role === 'teacher' ? '/teacher/dashboard' : '/student/dashboard'} 
@@ -65,35 +65,26 @@ export const PublicNavbar: React.FC = () => {
                 LOGOUT
               </button>
             </div>
-          ) : (
-            <Link to="/login" className="btn-academia-text flex-align gap-2 desktop-only">
-              USER LOGIN <span className="arrow-sym">→</span>
-            </Link>
           )}
 
           <button 
-            className="mobile-menu-btn hide-desktop"
+            className="mobile-menu-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="academia-mobile-drawer">
-          <nav className="mobile-drawer-links">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-            <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
-            <Link to="/courses/arc-118" onClick={() => setMobileMenuOpen(false)}>Course Details</Link>
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
-            <Link to="/login" onClick={() => setMobileMenuOpen(false)}>User Login / Register</Link>
-            {currentUser && (
-              <Link to={currentUser.role === 'teacher' ? '/teacher/dashboard' : '/student/dashboard'} onClick={() => setMobileMenuOpen(false)}>
-                My Workspace Dashboard
-              </Link>
-            )}
+        <div className="mobile-menu-drawer" style={{ background: '#0D1B2D', padding: '1.5rem 2rem', borderBottom: '1px solid #1B3045' }}>
+          <nav className="flex-column gap-3">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="academia-nav-link">Home</Link>
+            <Link to="/courses" onClick={() => setMobileMenuOpen(false)} className="academia-nav-link">Courses</Link>
+            <Link to="/courses/arc-118" onClick={() => setMobileMenuOpen(false)} className="academia-nav-link">Course Details</Link>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="academia-nav-link">Contact</Link>
           </nav>
         </div>
       )}
