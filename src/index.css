@@ -416,6 +416,84 @@ a {
 }
 
 /* --------------------------------------------------------------------------
+   AI STUDY TIPS & METHODOLOGY (4-COLUMN HORIZONTAL GRID)
+   -------------------------------------------------------------------------- */
+.ai-tips-container {
+  padding: 1rem 0;
+}
+
+.ai-lead-text {
+  font-size: 1.05rem;
+  color: var(--soft-gray);
+  max-width: 680px;
+  margin-top: 0.6rem;
+  line-height: 1.6;
+}
+
+.ai-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  margin-top: 3.5rem;
+}
+
+.ai-tip-card {
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--muted-stone);
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-step-num {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--warm-taupe);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.ai-tip-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--academic-green);
+  margin-bottom: 0.4rem;
+}
+
+.ai-tip-desc {
+  font-size: 0.9rem;
+  color: var(--soft-gray);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   HOME CTA BANNER
+   -------------------------------------------------------------------------- */
+.home-cta-banner {
+  background: var(--academic-green);
+  color: var(--warm-ivory);
+  padding: 6rem 0;
+}
+
+.cta-serif-title {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+}
+
+.cta-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-brand-100);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
    MY COURSES & ACADEMIC FLOW DASHBOARD
    -------------------------------------------------------------------------- */
 .badge-enrolled-status {
@@ -729,6 +807,7 @@ a {
   .mobile-menu-btn { display: flex !important; }
   .hero-split-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .featured-courses-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .ai-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 1.8rem; }
   .grid-3-flow { grid-template-columns: 1fr; gap: 1.5rem; }
   .footer-top-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
   .hero-serif-title { font-size: 3rem; }
@@ -738,6 +817,7 @@ a {
 
 @media (max-width: 640px) {
   .faculty-grid-3 { grid-template-columns: 1fr; }
+  .ai-grid-4 { grid-template-columns: 1fr; }
   .footer-top-grid { grid-template-columns: 1fr; }
   .hero-serif-title { font-size: 2.2rem; }
   .section-serif-heading { font-size: 1.7rem; }
