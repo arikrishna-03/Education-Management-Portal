@@ -158,7 +158,6 @@ export const CoursesPage: React.FC = () => {
   };
 
   const filteredCourses = allCourses.filter((course) => {
-    // 1. Search Query
     const query = searchQuery.toLowerCase();
     const matchesSearch = 
       course.title.toLowerCase().includes(query) || 
@@ -166,27 +165,19 @@ export const CoursesPage: React.FC = () => {
       course.instructor.toLowerCase().includes(query) ||
       course.categoryLabel.toLowerCase().includes(query);
 
-    // 2. Category
     const matchesCategory = selectedCategory === 'ALL' || course.category === selectedCategory;
-
-    // 3. Level
     const matchesLevel = selectedLevel === 'All' || course.level === selectedLevel;
 
-    // 4. Duration
     let matchesDuration = true;
     if (selectedDuration === 'Short') matchesDuration = course.weeksCount < 8;
     if (selectedDuration === 'Medium') matchesDuration = course.weeksCount >= 8 && course.weeksCount <= 12;
     if (selectedDuration === 'Long') matchesDuration = course.weeksCount > 12;
 
-    // 5. Rating
     let matchesRating = true;
     if (selectedRating === '4.5+') matchesRating = course.ratingVal >= 4.5;
     if (selectedRating === '4.0+') matchesRating = course.ratingVal >= 4.0;
 
-    // 6. Format
     const matchesFormat = selectedFormat === 'All' || course.format === selectedFormat;
-
-    // 7. Price
     const matchesPrice = selectedPrice === 'All' || course.price === selectedPrice;
 
     return matchesSearch && matchesCategory && matchesLevel && matchesDuration && matchesRating && matchesFormat && matchesPrice;
@@ -207,24 +198,24 @@ export const CoursesPage: React.FC = () => {
 
   return (
     <div className="academia-page">
-      {/* COURSES PAGE HEADER */}
+      {/* COURSES PAGE HERO */}
       <section className="courses-hero-header">
         <div className="academia-container">
-          <span className="micro-eyebrow">COURSES</span>
-          <h1 className="hero-serif-title">Explore our courses</h1>
+          <span className="micro-eyebrow">ACADEMIC CURRICULUM</span>
+          <h1 className="hero-serif-title">Courses</h1>
           <p className="hero-lead-desc" style={{ maxWidth: '700px' }}>
             Study with intention. Explore a carefully curated collection of academic courses taught by experienced educators.
           </p>
         </div>
       </section>
 
-      {/* SECTION 1 & 2: SEARCH COURSES & FILTER TOOLBAR */}
+      {/* SECTION 1 & 2: SEARCH COURSES & FILTER */}
       <section className="section-space-sm border-top-thin">
         <div className="academia-container">
           <div className="flex-between flex-wrap gap-4 align-items-end">
             {/* 1. SEARCH COURSES */}
             <div className="search-courses-container flex-1" style={{ minWidth: '280px' }}>
-              <span className="micro-eyebrow">SEARCH COURSES</span>
+              <h2 className="section-serif-heading" style={{ fontSize: '1.5rem', marginBottom: '0.6rem' }}>Search Courses</h2>
               <div className="search-field-minimal">
                 <input 
                   type="text" 
@@ -258,7 +249,7 @@ export const CoursesPage: React.FC = () => {
             <div className="luxury-filter-panel">
               <div className="flex-between filter-panel-header">
                 <div>
-                  <h4 className="sub-serif-title" style={{ fontSize: '1.4rem', margin: 0 }}>Filter Courses</h4>
+                  <h4 className="sub-serif-title" style={{ fontSize: '1.4rem', margin: 0 }}>Filter Options</h4>
                   <span className="text-xs text-muted">Refine catalog by level, duration, rating, format, or price</span>
                 </div>
                 <button className="btn-icon-close" onClick={() => setFilterPanelOpen(false)}>
@@ -354,8 +345,7 @@ export const CoursesPage: React.FC = () => {
       {/* SECTION 3: CATEGORIES */}
       <section className="section-space-sm border-top-thin">
         <div className="academia-container">
-          <span className="micro-eyebrow">CATEGORIES</span>
-          <h3 className="section-serif-heading" style={{ fontSize: '1.8rem', marginBottom: '1.2rem' }}>Categories</h3>
+          <h2 className="section-serif-heading" style={{ fontSize: '1.8rem', marginBottom: '1.2rem' }}>Categories</h2>
 
           <div className="category-filters-row">
             {categories.map((cat) => (
@@ -375,10 +365,7 @@ export const CoursesPage: React.FC = () => {
       <section className="section-space border-top-thin">
         <div className="academia-container">
           <div className="flex-between" style={{ marginBottom: '2rem' }}>
-            <div>
-              <span className="micro-eyebrow">ACADEMIC CATALOG</span>
-              <h2 className="section-serif-heading">Course Listing</h2>
-            </div>
+            <h2 className="section-serif-heading">Course Listing</h2>
             <span className="text-xs text-muted font-mono">{filteredCourses.length} COURSES FOUND</span>
           </div>
 
@@ -421,7 +408,6 @@ export const CoursesPage: React.FC = () => {
       {/* SECTION 5: TOP RATED COURSES */}
       <section className="section-space border-top-thin">
         <div className="academia-container">
-          <span className="micro-eyebrow">ACADEMIC BENCHMARKS</span>
           <h2 className="section-serif-heading">Top Rated Courses</h2>
 
           <div className="top-rated-list" style={{ marginTop: '2rem' }}>

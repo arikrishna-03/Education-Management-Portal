@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export const PublicNavbar: React.FC = () => {
   const location = useLocation();
@@ -11,9 +11,9 @@ export const PublicNavbar: React.FC = () => {
     <header className="academia-navbar">
       <div className="academia-nav-container">
         {/* Typographic Logo */}
-        <Link to="/" className="academia-brand flex-align gap-2">
+        <Link to="/" className="academia-brand flex-column">
           <span className="brand-mark">ACADEMIA</span>
-          <span className="brand-sub">Academic Institute</span>
+          <span className="brand-sub">ACADEMIC INSTITUTE</span>
         </Link>
 
         {/* Minimal Nav Links */}
