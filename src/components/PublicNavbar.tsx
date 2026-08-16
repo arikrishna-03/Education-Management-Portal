@@ -27,15 +27,15 @@ export const PublicNavbar: React.FC = () => {
           <Link to="/contact" className={`academia-nav-link ${path === '/contact' ? 'active' : ''}`}>
             Contact
           </Link>
-          <Link to="/courses/arc-118" className={`academia-nav-link ${path.startsWith('/courses/') ? 'active' : ''}`}>
-            Course Details
+          <Link to="/my-courses" className={`academia-nav-link ${path.startsWith('/my-courses') || path.startsWith('/enrolled-courses') ? 'active' : ''}`}>
+            My Courses
           </Link>
         </nav>
 
         {/* Action Button */}
         <div className="academia-nav-actions flex-align gap-3">
-          <Link to="/courses" className="btn-academia-text flex-align gap-2 desktop-only">
-            EXPLORE COURSES <span className="arrow-sym">→</span>
+          <Link to="/my-courses" className="btn-academia-text flex-align gap-2 desktop-only">
+            MY COURSES <span className="arrow-sym">→</span>
           </Link>
 
           <button 
@@ -54,7 +54,8 @@ export const PublicNavbar: React.FC = () => {
             <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
             <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
-            <Link to="/courses/arc-118" onClick={() => setMobileMenuOpen(false)}>Course Details</Link>
+            <Link to="/my-courses" onClick={() => setMobileMenuOpen(false)}>My Courses</Link>
+            <Link to="/app" onClick={() => setMobileMenuOpen(false)}>Academic Workspace</Link>
           </nav>
         </div>
       )}

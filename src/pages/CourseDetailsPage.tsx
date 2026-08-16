@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { isCourseEnrolled, enrollInCourse } from '../data/enrollmentState';
+import { X, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const CourseDetailsPage: React.FC = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
 
+  const currentCourseId = courseId || 'arc-118';
+  const enrolledAlready = isCourseEnrolled(currentCourseId);
+
   const [activeSyllabusIndex, setActiveSyllabusIndex] = useState<number | null>(0);
-  const [enrollSuccess, setEnrollSuccess] = useState(false);
+  const [showEnrollSuccessModal, setShowEnrollSuccessModal] = useState(false);
 
   // Syllabus accordion data
   const syllabusModules = [
@@ -38,10 +43,32 @@ export const CourseDetailsPage: React.FC = () => {
   ];
 
   const handleEnrollClick = () => {
-    setEnrollSuccess(true);
-    setTimeout(() => {
-      navigate('/app/courses');
-    }, 1500);
+    if (enrolledAlready) {
+      // Redirect directly to enrolled Academic Flow
+      navigate(`/enrolled-courses/${currentCourseId}`);
+      return;
+    }
+
+    // Enroll dynamically
+    enrollInCourse({
+      courseId: currentCourseId,
+      title: currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture',
+      category: currentCourseId === 'edu-204' ? 'Pedagogical Design' : 'Architecture & Design',
+      instructor: currentCourseId === 'edu-204' ? 'Dr. Sarah Jenkins' : 'Dr. Leila Haddad',
+      progress: 68,
+      grade: 'A-',
+      attendancePct: 92,
+      assignmentsCompleted: 8,
+      totalAssignments: 10,
+      image: currentCourseId === 'edu-204' ? 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000' : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000'
+    });
+
+    setShowEnrollSuccessModal(true);
+  };
+
+  const handleGoToCourse = () => {
+    setShowEnrollSuccessModal(false);
+    navigate(`/enrolled-courses/${currentCourseId}`);
   };
 
   return (
@@ -51,18 +78,22 @@ export const CourseDetailsPage: React.FC = () => {
         <div className="academia-container">
           <div className="hero-split-grid">
             <div className="hero-text-col">
-              <span className="micro-category-label">DESIGN & ARCHITECTURE</span>
+              <span className="micro-category-label">
+                {currentCourseId === 'edu-204' ? 'PEDAGOGICAL DESIGN' : 'DESIGN & ARCHITECTURE'}
+              </span>
               <h1 className="hero-serif-title" style={{ fontSize: '3rem', margin: '0.5rem 0' }}>
-                Spatial Thinking & Environmental Architecture
+                {currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture'}
               </h1>
               <p className="hero-lead-desc" style={{ marginBottom: '1.5rem' }}>
-                Understand how space shapes human experience through architecture, structural design, and empirical observation.
+                Understand how space and pedagogical frameworks shape human experience through structural design and observation.
               </p>
 
               <div className="course-hero-meta-row flex-align gap-4">
                 <div>
                   <span className="micro-eyebrow">INSTRUCTOR</span>
-                  <strong className="meta-val-text">Dr. Leila Haddad</strong>
+                  <strong className="meta-val-text">
+                    {currentCourseId === 'edu-204' ? 'Dr. Sarah Jenkins' : 'Dr. Leila Haddad'}
+                  </strong>
                 </div>
                 <div className="divider-vert" />
                 <div>
@@ -78,7 +109,7 @@ export const CourseDetailsPage: React.FC = () => {
 
               <div style={{ marginTop: '2rem' }}>
                 <button className="btn-editorial-primary" onClick={handleEnrollClick}>
-                  {enrollSuccess ? 'ENROLLED SUCCESSFULLY ✓' : 'ENROLL NOW →'}
+                  {enrolledAlready ? 'GO TO MY COURSE →' : 'ENROLL NOW →'}
                 </button>
               </div>
             </div>
@@ -86,8 +117,8 @@ export const CourseDetailsPage: React.FC = () => {
             <div className="hero-image-col">
               <div className="hero-image-frame">
                 <img 
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" 
-                  alt="Spatial Thinking Architecture" 
+                  src={currentCourseId === 'edu-204' ? 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200' : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200'} 
+                  alt="Course Artwork" 
                   className="editorial-img"
                 />
               </div>
@@ -145,7 +176,7 @@ export const CourseDetailsPage: React.FC = () => {
                 </div>
 
                 <button className="btn-editorial-primary w-full" onClick={handleEnrollClick}>
-                  {enrollSuccess ? 'ENROLLED ✓' : 'ENROLL NOW →'}
+                  {enrolledAlready ? 'GO TO MY COURSE →' : 'ENROLL NOW →'}
                 </button>
               </div>
             </div>
@@ -187,67 +218,31 @@ export const CourseDetailsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. TEACHER INFORMATION */}
-      <section className="section-space border-top-thin">
-        <div className="academia-container">
-          <span className="micro-eyebrow">FACULTY PROFILE</span>
-          <h2 className="section-serif-heading">Instructor Information</h2>
-
-          <div className="grid-2-1" style={{ marginTop: '2rem', gap: '3rem' }}>
-            <div className="faculty-portrait-frame" style={{ maxHeight: '450px' }}>
-              <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-                alt="Dr. Leila Haddad" 
-                className="editorial-img grayscale-img"
-              />
+      {/* ENROLLMENT SUCCESS CONFIRMATION MODAL */}
+      {showEnrollSuccessModal && (
+        <div className="modal-overlay active" onClick={() => setShowEnrollSuccessModal(false)}>
+          <div className="modal-box modal-md text-center" onClick={(e) => e.stopPropagation()} style={{ padding: '3rem 2rem' }}>
+            <div className="intel-sparkle-box flex-center" style={{ margin: '0 auto 1.2rem', width: '54px', height: '54px', borderRadius: '50%', background: '#e7f5ee' }}>
+              <CheckCircle2 size={32} className="text-emerald" />
             </div>
 
-            <div>
-              <span className="micro-category-label">PROFESSOR OF ARCHITECTURE</span>
-              <h2 className="hero-serif-title" style={{ fontSize: '2.5rem', margin: '0.3rem 0' }}>Dr. Leila Haddad</h2>
-              <p className="role-subtext">Institute of Spatial Studies · Senior Faculty Fellow</p>
-              
-              <p className="body-editorial-p" style={{ marginTop: '1.2rem' }}>
-                Dr. Haddad holds a Ph.D. in Architectural Geometry from ETH Zürich. Her research focuses on high-density pedestrian corridors, environmental psychology, and the cognitive experience of architectural space.
-              </p>
+            <span className="micro-eyebrow text-emerald">ENROLLMENT CONFIRMED</span>
+            <h2 className="sub-serif-title" style={{ fontSize: '2.2rem', margin: '0.4rem 0' }}>
+              You are now enrolled in
+            </h2>
+            <h3 className="hero-serif-title" style={{ fontSize: '1.8rem', color: '#173c35', margin: '0.2rem 0 1rem' }}>
+              {currentCourseId === 'edu-204' ? 'Learning Design & Pedagogical Frameworks' : 'Spatial Thinking & Environmental Architecture'}
+            </h3>
+            <p className="body-editorial-p" style={{ marginBottom: '2rem' }}>
+              Your academic workspace is ready. Access course modules, assignments, attendance records, and AI intelligence.
+            </p>
 
-              <h4 className="sub-serif-title" style={{ marginTop: '1.5rem' }}>Areas of Expertise</h4>
-              <p className="body-editorial-p">Spatial Thinking · Urban Corridor Analysis · Vector Blueprint Systems · Architectural Theory</p>
-            </div>
+            <button className="btn-editorial-primary w-full" style={{ padding: '1rem' }} onClick={handleGoToCourse}>
+              GO TO MY COURSE →
+            </button>
           </div>
         </div>
-      </section>
-
-      {/* 5. SCHEDULE SECTION */}
-      <section className="section-space border-top-thin">
-        <div className="academia-container">
-          <span className="micro-eyebrow">TIMELINE & VENUE</span>
-          <h2 className="section-serif-heading">Course Schedule</h2>
-
-          <div className="schedule-editorial-grid" style={{ marginTop: '2rem' }}>
-            <div className="schedule-cell">
-              <span className="micro-eyebrow">START DATE</span>
-              <strong className="sched-val font-serif">14 September 2026</strong>
-            </div>
-            <div className="schedule-cell">
-              <span className="micro-eyebrow">DURATION</span>
-              <strong className="sched-val font-serif">12 Weeks</strong>
-            </div>
-            <div className="schedule-cell">
-              <span className="micro-eyebrow">LECTURE DAYS</span>
-              <strong className="sched-val font-serif">Tuesday & Thursday</strong>
-            </div>
-            <div className="schedule-cell">
-              <span className="micro-eyebrow">TIME WINDOW</span>
-              <strong className="sched-val font-serif">18:00 – 20:00 GMT</strong>
-            </div>
-            <div className="schedule-cell">
-              <span className="micro-eyebrow">VENUE</span>
-              <strong className="sched-val font-serif">Studio Hall 102</strong>
-            </div>
-          </div>
-        </div>
-      </section>
+      )}
     </div>
   );
 };
