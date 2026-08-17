@@ -1,5 +1,5 @@
 
-# "https://arikrishna-03.github.io/Education-Management-Portal/"
+#link :  "https://arikrishna-03.github.io/Education-Management-Portal/"
 # 🎓 Education Management Portal
 
 ## BUILDATHON 2026 — Inter-College Hackathon
